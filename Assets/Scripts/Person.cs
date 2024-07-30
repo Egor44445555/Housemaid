@@ -10,17 +10,19 @@ public class Person : MonoBehaviour
     [SerializeField] public float normalSpeed = 3f;
     [SerializeField] public Count countClass;
 
+    public GameObject cartMenu;
+    public bool cartMenuIsOpen = false;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
-
     private GameObject[] gameObjects;
     private float speed;
     private string taskTarget;
     private int tasksCount;
     private bool lookUp = false;
-    private bool stopRunning = false;
+    public bool stopRunning = false;
     private bool enterNextFloor = false;
+    private bool enterCartMenu = false;
     Text text;
 
     private States State
@@ -112,6 +114,22 @@ public class Person : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Cart")
+        {
+            enterCartMenu = true;
+        }        
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Cart")
+        {
+            enterCartMenu = false;
+        }
+    }
+
     public void Action()
     {
         if (!stopRunning)
@@ -128,6 +146,14 @@ public class Person : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        if (enterCartMenu)
+        {
+            cartMenu.SetActive(true);
+            enterCartMenu = false;
+            stopRunning = true;
+            cartMenuIsOpen = true;
         }
 
         if (enterNextFloor)

@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class FrameSwitch : MonoBehaviour
 {
+    [SerializeField] public GameObject playerPositionCorridorStart;
     [SerializeField] public GameObject playerPositionStayEnter;
     [SerializeField] public GameObject playerPositionStayExit;
     [SerializeField] public Person person;
 
     public GameObject activeFrame;
 
+    string startPos = "Corridor";
+
+    void Start()
+    {
+        if (playerPositionCorridorStart && activeFrame.name == "Corridor")
+        {
+            person.transform.position = playerPositionCorridorStart.transform.position;            
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") && activeFrame)
+        if (collider.CompareTag("Player"))
         {
-
-            print(activeFrame);
             activeFrame.SetActive(true);
 
-            if (playerPositionStayEnter)
+            if (playerPositionStayEnter && activeFrame.name != startPos)
             {
                 person.transform.position = playerPositionStayEnter.transform.position;
+
+                startPos = "";
             }
         }
     }
@@ -29,12 +40,14 @@ public class FrameSwitch : MonoBehaviour
     {
         if (collider.CompareTag("Player") && activeFrame)
         {
-            activeFrame.SetActive(false);            
+            activeFrame.SetActive(false);
 
             if (playerPositionStayExit)
             {
-                person.transform.position = playerPositionStayExit.transform.position;
+                person.transform.position = playerPositionStayExit.transform.position;                
             }
+
+            startPos = "";
         }
     }
 }
