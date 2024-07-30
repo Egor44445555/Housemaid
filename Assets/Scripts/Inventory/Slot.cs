@@ -29,7 +29,12 @@ public class Slot : MonoBehaviour
                 child.GetComponent<Spawn>().SpawnDroppedItem();                
             } else
             {
-                //GameObject.FindWithTag("BroomInCartMenu").SetActive(true);
+                string nameStuff = child.gameObject.name.Replace("(Clone)", "");
+                char[] letters = nameStuff.ToCharArray();
+                letters[0] = char.ToUpper(letters[0]);
+                string newString = new string(letters);
+
+                GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<RectTransform>().sizeDelta = new Vector2(160, 30);
             }
 
             GameObject.Destroy(child.gameObject);

@@ -21,9 +21,6 @@ public class PickUpInCartMenu : MonoBehaviour
                 inventory.isFull[i] = true;
                 Instantiate(slotButton, inventory.slots[i].transform);
                 inventory.stuff[i] = slotButton;
-
-                print(gameObject.GetComponent<RectTransform>().sizeDelta);
-
                 gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
 
                 break;
