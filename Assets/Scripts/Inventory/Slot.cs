@@ -34,6 +34,7 @@ public class Slot : MonoBehaviour
                 letters[0] = char.ToUpper(letters[0]);
                 string newString = new string(letters);
 
+                print(newString);
                 GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<RectTransform>().sizeDelta = new Vector2(160, 30);
             }
 

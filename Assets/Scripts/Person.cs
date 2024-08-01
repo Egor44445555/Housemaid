@@ -7,23 +7,29 @@ using UnityEngine.SceneManagement;
 
 public class Person : MonoBehaviour
 {
+    private Inventory inventory;
+    private FrameSwitch frameSwitch;
+
     [SerializeField] public float normalSpeed = 3f;
     [SerializeField] public Count countClass;
 
-    public GameObject cartMenu;
-    public bool cartMenuIsOpen = false;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
     private GameObject[] gameObjects;
+    public GameObject cartMenu;
+    public bool cartMenuIsOpen = false;
+    private bool enterCartMenu = false;
+    private bool doorActive = false;
     private float speed;
     private string taskTarget;
     private int tasksCount;
     private bool lookUp = false;
     public bool stopRunning = false;
     private bool enterNextFloor = false;
-    private bool enterCartMenu = false;
-    Text text;
+    private Text text;
+    public GameObject newFrame;
+    public Vector3 doorEnterPoint;
 
     private States State
     {
@@ -35,6 +41,45 @@ public class Person : MonoBehaviour
         {
             anim.SetInteger("state", (int)value);
         }
+    }
+
+    private void ChangeOrderLayerCart()
+    {
+        float playerPositionY = GameObject.FindGameObjectWithTag("Player").transform.position.y;
+        float cartPositionY = GameObject.FindGameObjectWithTag("Cart").transform.position.y;
+
+        if (playerPositionY > cartPositionY)
+        {
+            GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 11;
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 0;
+        }
+    }
+
+    public void OnTopButtonDown()
+    {
+        if (!stopRunning)
+        {
+            lookUp = true;
+            rb.velocity = transform.up * normalSpeed;
+            State = States.runUp;
+        }
+
+        ChangeOrderLayerCart();
+    }
+
+    public void OnDownButtonDown()
+    {
+        if (!stopRunning)
+        {
+            lookUp = false;
+            rb.velocity = -transform.up * normalSpeed;
+            State = States.run;
+        }
+
+        ChangeOrderLayerCart();
     }
 
     public void OnRightButtonDown()
@@ -50,7 +95,9 @@ public class Person : MonoBehaviour
             rb.velocity = transform.right * speed;
             sprite.flipX = speed <= 0f;
             State = States.run;
-        }        
+        }
+
+        ChangeOrderLayerCart();
     }
 
     public void OnLeftButtonDown()
@@ -62,27 +109,8 @@ public class Person : MonoBehaviour
             sprite.flipX = speed <= 0f;
             State = States.run;
         }
-    }
 
-    public void OnTopButtonDown()
-    {
-
-        if (!stopRunning)
-        {
-            lookUp = true;
-            rb.velocity = transform.up * normalSpeed;
-            State = States.runUp;
-        }            
-    }
-
-    public void OnDownButtonDown()
-    {
-        if (!stopRunning)
-        {
-            lookUp = false;
-            rb.velocity = -transform.up * normalSpeed;
-            State = States.run;
-        }            
+        ChangeOrderLayerCart();
     }
 
     public void OnButtonUp()
@@ -102,16 +130,14 @@ public class Person : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
+        taskTarget = collider.CompareTag("Task") ? collider.name : null;
+        doorActive = collider.tag == "Door" ? true : false;
+        enterNextFloor = collider.CompareTag("Floor");
+    }
 
-        if (collider.CompareTag("Task"))
-        {
-            taskTarget = collider.name;
-        }
-
-        if (collider.CompareTag("Floor"))
-        {
-            enterNextFloor = true;
-        }
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        doorActive = false;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -119,7 +145,7 @@ public class Person : MonoBehaviour
         if (collision.gameObject.name == "Cart")
         {
             enterCartMenu = true;
-        }        
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -127,21 +153,49 @@ public class Person : MonoBehaviour
         if (collision.gameObject.name == "Cart")
         {
             enterCartMenu = false;
-        }
+        }        
     }
 
     public void Action()
     {
+        if (doorActive)
+        {
+            FindObjectOfType<FrameSwitch>().OpenDoor();
+        }
+
         if (!stopRunning)
         {
             for (int i = 0; i < gameObjects.Length; i++)
             {
                 if (gameObjects[i] && taskTarget == gameObjects[i].name)
                 {
-                    stopRunning = true;
-                    State = States.action;
+                    bool bagIsExist = false;
 
-                    StartCoroutine(destroyTask(i));
+                    for (int j = 0; j < inventory.stuff.Length; j++)
+                    {
+                        if (inventory.stuff[j] && inventory.stuff[j].name == "bag")
+                        {
+                            bagIsExist = true;
+                        }
+                    }
+
+                    if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && bagIsExist)
+                    {
+                        // Using a broom
+                        stopRunning = true;
+                        State = States.action;
+                        StartCoroutine(destroyTask(i));
+                    } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
+                    {
+                        // No bag in inventory
+                        State = States.run;
+                    } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
+                    {
+                        // Using other stuff in inventory
+                        stopRunning = true;
+                        State = States.action;
+                        StartCoroutine(destroyTask(i));
+                    }
 
                     break;
                 }
@@ -151,7 +205,6 @@ public class Person : MonoBehaviour
         if (enterCartMenu)
         {
             cartMenu.SetActive(true);
-            enterCartMenu = false;
             stopRunning = true;
             cartMenuIsOpen = true;
         }
@@ -188,6 +241,7 @@ public class Person : MonoBehaviour
 
     void Start()
     {
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         speed = 0f;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();

@@ -4,50 +4,35 @@ using UnityEngine;
 
 public class FrameSwitch : MonoBehaviour
 {
-    [SerializeField] public GameObject playerPositionCorridorStart;
     [SerializeField] public GameObject playerPositionStayEnter;
-    [SerializeField] public GameObject playerPositionStayExit;
     [SerializeField] public Person person;
 
     public GameObject activeFrame;
-
-    string startPos = "Corridor";
+    private GameObject[] rooms;
 
     void Start()
     {
-        if (playerPositionCorridorStart && activeFrame.name == "Corridor")
-        {
-            person.transform.position = playerPositionCorridorStart.transform.position;            
-        }
+        rooms = GameObject.FindGameObjectsWithTag("Room");
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
         {
-            activeFrame.SetActive(true);
-
-            if (playerPositionStayEnter && activeFrame.name != startPos)
-            {
-                person.transform.position = playerPositionStayEnter.transform.position;
-
-                startPos = "";
-            }
+            person.newFrame = activeFrame;
+            person.doorEnterPoint = playerPositionStayEnter.transform.position;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collider)
+    public void OpenDoor()
     {
-        if (collider.CompareTag("Player") && activeFrame)
+        foreach (GameObject room in rooms)
         {
-            activeFrame.SetActive(false);
-
-            if (playerPositionStayExit)
-            {
-                person.transform.position = playerPositionStayExit.transform.position;                
-            }
-
-            startPos = "";
+            room.SetActive(false);
         }
+
+        person.transform.position = new Vector3(0, 0, 0);
+        person.newFrame.SetActive(true);
+        person.transform.position = person.doorEnterPoint;
     }
 }

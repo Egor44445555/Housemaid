@@ -18,6 +18,8 @@ public class PickUpInCartMenu : MonoBehaviour
         {
             if (inventory.isFull[i] == false)
             {
+                print(slotButton);
+
                 inventory.isFull[i] = true;
                 Instantiate(slotButton, inventory.slots[i].transform);
                 inventory.stuff[i] = slotButton;
