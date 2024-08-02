@@ -45,16 +45,31 @@ public class Person : MonoBehaviour
 
     private void ChangeOrderLayerCart()
     {
-        float playerPositionY = GameObject.FindGameObjectWithTag("Player").transform.position.y;
-        float cartPositionY = GameObject.FindGameObjectWithTag("Cart").transform.position.y;
+        if (GameObject.FindGameObjectWithTag("Cart"))
+        {
+            float playerPositionY = GameObject.FindGameObjectWithTag("Player").transform.position.y;
+            float cartPositionY = GameObject.FindGameObjectWithTag("Cart").transform.position.y;
+            int playerOrderLayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().sortingOrder;
+            Transform[] objChild = GameObject.FindGameObjectWithTag("Cart").transform.GetComponentsInChildren<Transform>();
 
-        if (playerPositionY > cartPositionY)
-        {
-            GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 11;
-        }
-        else
-        {
-            GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 0;
+            if (playerPositionY > cartPositionY)
+            {
+                for (var j = 0; j < objChild.Length; j++)
+                {
+                    objChild[j].gameObject.GetComponent<SpriteRenderer>().sortingOrder = playerOrderLayer + 2;
+                }
+
+                GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = playerOrderLayer + 1;
+            }
+            else
+            {
+                for (var j = 0; j < objChild.Length; j++)
+                {
+                    objChild[j].gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                }
+
+                GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }
         }
     }
 
@@ -170,12 +185,18 @@ public class Person : MonoBehaviour
                 if (gameObjects[i] && taskTarget == gameObjects[i].name)
                 {
                     bool bagIsExist = false;
+                    bool mopIsExist = false;
 
                     for (int j = 0; j < inventory.stuff.Length; j++)
                     {
                         if (inventory.stuff[j] && inventory.stuff[j].name == "bag")
                         {
                             bagIsExist = true;
+                        }
+
+                        if (inventory.stuff[j] && inventory.stuff[j].name == "mop")
+                        {
+                            mopIsExist = true;
                         }
                     }
 
@@ -188,6 +209,17 @@ public class Person : MonoBehaviour
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
                         // No bag in inventory
+                        State = States.run;
+                    }
+                    else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
+                    {
+                        // Using a mop
+                        stopRunning = true;
+                        State = States.action;
+                        StartCoroutine(destroyTask(i));
+                    } else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
+                    {
+                        // No mop in inventory
                         State = States.run;
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
                     {

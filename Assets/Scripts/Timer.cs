@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Text timerText;
-    public float lifeTime = 60F;
-    private float gameTime;
+    public float lifeTime = 60;
 
     void Update()
     {
-        timerText.text = lifeTime.ToString();
-        gameTime += 1 * Time.deltaTime;
+        float minutes = Mathf.FloorToInt(lifeTime / 60);
+        float seconds = Mathf.FloorToInt(lifeTime % 60);
 
-        if (gameTime >=1)
+        timerText.text = minutes.ToString() + ":" + seconds;
+
+        if (lifeTime > 1)
         {
-            lifeTime -= 1;
-            gameTime = 0;
+            lifeTime -= Time.deltaTime;
         }
     }
 }

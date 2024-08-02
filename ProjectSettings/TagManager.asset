@@ -18,6 +18,8 @@ TagManager:
   - SprayInCartMenu
   - Trash
   - MopInCartMenu
+  - TowelsInCartMenu
+  - ToiletPaperInCartMenu
   layers:
   - Default
   - TransparentFX

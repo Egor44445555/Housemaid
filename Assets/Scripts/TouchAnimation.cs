@@ -21,7 +21,6 @@ public class Puddle : MonoBehaviour
 
     public void OnAction()
     {
-        print("OnAction");
         StatePuddle = StatesPuddle.action;
     }
 
@@ -34,13 +33,13 @@ public class Puddle : MonoBehaviour
     void Update()
     {
         if (Input.touchCount > 0)
-        {
+        {  
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 var p = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
                 var hit = Physics2D.Raycast(p, Vector2.zero);
 
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Puddle"))
+                if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Puddle"))
                 {
                     StatePuddle = StatesPuddle.action;
                     StartCoroutine(StartAnimation());

@@ -21,21 +21,20 @@ public class Slot : MonoBehaviour
     }
 
     public void DropItem()
-    {
+    {        
         foreach (Transform child in transform)
         {
             if (!FindObjectOfType<Person>().cartMenuIsOpen)
             {
-                child.GetComponent<Spawn>().SpawnDroppedItem();                
+                child.GetComponent<Spawn>().SpawnDroppedItem();
             } else
             {
                 string nameStuff = child.gameObject.name.Replace("(Clone)", "");
                 char[] letters = nameStuff.ToCharArray();
                 letters[0] = char.ToUpper(letters[0]);
                 string newString = new string(letters);
-
-                print(newString);
-                GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<RectTransform>().sizeDelta = new Vector2(160, 30);
+                GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<RectTransform>().sizeDelta = GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<PickUpInCartMenu>().sizeStuff;
+                inventory.ChangeStuffInCartOnScene(nameStuff, false);
             }
 
             GameObject.Destroy(child.gameObject);
