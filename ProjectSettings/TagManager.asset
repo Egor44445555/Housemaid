@@ -20,6 +20,7 @@ TagManager:
   - MopInCartMenu
   - TowelsInCartMenu
   - ToiletPaperInCartMenu
+  - CheckList
   layers:
   - Default
   - TransparentFX

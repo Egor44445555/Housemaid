@@ -7,14 +7,14 @@ public class Count : MonoBehaviour
 {
     private GameObject[] gameObjects;
     public Text countText;
-    public int count = 3;
+    public int count = 0;
 
     public void countChange()
     {
-        count = count - 1;
-        countText.text = "Tasks: " + count.ToString();
-        PlayerPrefs.SetInt("Count", count);
-        PlayerPrefs.Save();
+        count = count + 1;
+        countText.text = "Tasks: " + count.ToString() + " / " + gameObjects.Length.ToString();
+        //PlayerPrefs.SetInt("Count", count);
+        //PlayerPrefs.Save();
     }
 
     void Start()
@@ -25,7 +25,6 @@ public class Count : MonoBehaviour
         }
         
         gameObjects = GameObject.FindGameObjectsWithTag("Task");
-        count = gameObjects.Length;
-        countText.text = "Tasks: " + gameObjects.Length.ToString();
+        countText.text = "Tasks: " + count.ToString() + " / " + gameObjects.Length.ToString();
     }
 }

@@ -20,17 +20,15 @@ public class PickUpInCartMenu : MonoBehaviour
         {
             if (inventory.isFull[i] == false)
             {
-                string[] endlessStuff = { "toiletPaper", "towels" };
+                
                 bool removeStuff = true;
                 inventory.isFull[i] = true;
                 Instantiate(slotButton, inventory.slots[i].transform);
                 inventory.stuff[i] = slotButton;                
                 inventory.ChangeStuffInCartOnScene(slotButton.name, true);                
 
-                foreach(string item in endlessStuff)
+                foreach(string item in inventory.endlessStuff)
                 {
-                    print(item);
-
                     if (item == slotButton.name)
                     {
                         removeStuff = false;

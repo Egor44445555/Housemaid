@@ -11,7 +11,7 @@ public class CartMenu : MonoBehaviour
     }
 
     public void CloseCartMenu()
-    {
+    {        
         GameObject.FindGameObjectWithTag("CartMenu").SetActive(false);
         FindObjectOfType<Person>().stopRunning = false;
         FindObjectOfType<Person>().cartMenuIsOpen = false;

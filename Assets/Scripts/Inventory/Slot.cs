@@ -21,7 +21,7 @@ public class Slot : MonoBehaviour
     }
 
     public void DropItem()
-    {        
+    {
         foreach (Transform child in transform)
         {
             if (!FindObjectOfType<Person>().cartMenuIsOpen)

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Person : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class Person : MonoBehaviour
     private bool enterCartMenu = false;
     private bool doorActive = false;
     private float speed;
-    private string taskTarget;
+    private string taskTarget = null;
+    private string roomName = null;
     private int tasksCount;
     private bool lookUp = false;
     public bool stopRunning = false;
@@ -30,6 +32,8 @@ public class Person : MonoBehaviour
     private Text text;
     public GameObject newFrame;
     public Vector3 doorEnterPoint;
+    private string jsonPath = "tasks.json";
+    private int currentTaskCount = 0;
 
     private States State
     {
@@ -148,11 +152,14 @@ public class Person : MonoBehaviour
         taskTarget = collider.CompareTag("Task") ? collider.name : null;
         doorActive = collider.tag == "Door" ? true : false;
         enterNextFloor = collider.CompareTag("Floor");
+        roomName = collider.name;
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
         doorActive = false;
+        taskTarget = null;
+        roomName = collider.name;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -173,7 +180,18 @@ public class Person : MonoBehaviour
 
     public void Action()
     {
-        if (doorActive)
+        bool tasksComplete = true;
+        string levelJson = JsonHelper.GetJsonObject(File.ReadAllText(jsonPath), "level1");
+        string roomJson = JsonHelper.GetJsonObject(levelJson, "room" + roomName.Replace("EdgeEnterRoom", ""));
+
+        RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
+
+        if (roomName.Contains("EdgeEnterRoom") && roomJson != "Null")
+        {
+            tasksComplete = countClass.count >= info.tasks ? true : false;
+        }
+
+        if (doorActive && tasksComplete)
         {
             FindObjectOfType<FrameSwitch>().OpenDoor();
         }
@@ -202,13 +220,15 @@ public class Person : MonoBehaviour
 
                     if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && bagIsExist)
                     {
-                        // Using a broom
+                        // Using a bag
                         stopRunning = true;
                         State = States.action;
                         StartCoroutine(destroyTask(i));
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
                         // No bag in inventory
+                        print(taskTarget);
+                        print("No bag");
                         State = States.run;
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
@@ -220,6 +240,7 @@ public class Person : MonoBehaviour
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
                     {
                         // No mop in inventory
+                        print("No mop");
                         State = States.run;
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
                     {
@@ -300,4 +321,11 @@ public enum States {
     death,
     looksUp,
     action
+}
+
+[System.Serializable]
+public class RoomInfo
+{
+    public int tasks;
+    public bool access;
 }

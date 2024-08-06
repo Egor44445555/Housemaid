@@ -12,8 +12,10 @@ public class Timer : MonoBehaviour
     {
         float minutes = Mathf.FloorToInt(lifeTime / 60);
         float seconds = Mathf.FloorToInt(lifeTime % 60);
+        string zeroMinutes = minutes < 10 ? "0" : "";
+        string zeroSeconds = seconds < 10 ? "0" : "";
 
-        timerText.text = minutes.ToString() + ":" + seconds;
+        timerText.text = zeroMinutes + minutes.ToString() + ":" + zeroSeconds + seconds;
 
         if (lifeTime > 1)
         {

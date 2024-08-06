@@ -1,0 +1,30 @@
+{
+  "level1": {
+    "room1": {
+      "tasks": 0
+    },
+    "room2": {
+      "tasks": 10
+    },
+    "room3": {
+      "tasks": 20
+    },
+    "room4": {
+      "tasks": 40
+    }
+  },
+  "level2": {
+    "room1": {
+      "tasks": 0
+    },
+    "room2": {
+      "tasks": 10
+    },
+    "room3": {
+      "tasks": 20
+    },
+    "room4": {
+      "tasks": 40
+    }
+  }
+}
