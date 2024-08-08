@@ -12,7 +12,7 @@ public class Count : MonoBehaviour
     public void countChange()
     {
         count = count + 1;
-        countText.text = "Tasks: " + count.ToString() + " / " + gameObjects.Length.ToString();
+        countText.text = "Tasks: " + count.ToString() + " / 40";
         //PlayerPrefs.SetInt("Count", count);
         //PlayerPrefs.Save();
     }
@@ -23,8 +23,7 @@ public class Count : MonoBehaviour
         {
             //print(PlayerPrefs.GetInt("Count", count));
         }
-        
-        gameObjects = GameObject.FindGameObjectsWithTag("Task");
-        countText.text = "Tasks: " + count.ToString() + " / " + gameObjects.Length.ToString();
+
+        countText.text = "Tasks: " + count.ToString() + " / 40";
     }
 }

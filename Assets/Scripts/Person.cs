@@ -178,6 +178,35 @@ public class Person : MonoBehaviour
         }        
     }
 
+    void CloudAnimation(string inventory)
+    {
+        Transform[] objChild = GameObject.FindGameObjectWithTag("Cloud").transform.GetComponentsInChildren<Transform>();
+
+        GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("show", true);
+
+        foreach (Transform child in objChild)
+        {
+            if (child.tag != "Cloud" && child.gameObject.GetComponent<SpriteRenderer>())
+            {
+                if (child.name == inventory)
+                {
+                    child.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
+                } else
+                {
+                    child.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+                }
+            }            
+        }
+
+        StartCoroutine(hideCloud());
+    }
+
+    IEnumerator hideCloud()
+    {
+        yield return new WaitForSeconds(2);
+        GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("show", false);
+    }
+
     public void Action()
     {
         bool tasksComplete = true;
@@ -229,7 +258,7 @@ public class Person : MonoBehaviour
                         // No bag in inventory
                         print(taskTarget);
                         print("No bag");
-                        State = States.run;
+                        CloudAnimation("bag");
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
                     {
@@ -241,7 +270,7 @@ public class Person : MonoBehaviour
                     {
                         // No mop in inventory
                         print("No mop");
-                        State = States.run;
+                        CloudAnimation("mop");
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
                     {
                         // Using other stuff in inventory
@@ -310,6 +339,9 @@ public class Person : MonoBehaviour
         {
             State = States.swiming;
         }
+
+        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
     }
 }
 

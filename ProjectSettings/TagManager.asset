@@ -21,6 +21,11 @@ TagManager:
   - TowelsInCartMenu
   - ToiletPaperInCartMenu
   - CheckList
+  - CloudMop
+  - CloudBag
+  - CloudToiletPaper
+  - CloudTowels
+  - Cloud
   layers:
   - Default
   - TransparentFX
