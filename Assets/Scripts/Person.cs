@@ -153,13 +153,15 @@ public class Person : MonoBehaviour
         doorActive = collider.tag == "Door" ? true : false;
         enterNextFloor = collider.CompareTag("Floor");
         roomName = collider.name;
+
+        PlayerPrefs.SetString("taskTarget", collider.CompareTag("Task") ? collider.name : "");
+        PlayerPrefs.Save();
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
         doorActive = false;
-        taskTarget = null;
-        roomName = collider.name;
+        roomName = collider.name;      
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -188,14 +190,15 @@ public class Person : MonoBehaviour
         {
             if (child.tag != "Cloud" && child.gameObject.GetComponent<SpriteRenderer>())
             {
-                if (child.name == inventory)
+                if (child.name.Replace("Cloud", "") == inventory)
                 {
                     child.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
-                } else
+                }
+                else
                 {
                     child.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
                 }
-            }            
+            }
         }
 
         StartCoroutine(hideCloud());
@@ -209,27 +212,11 @@ public class Person : MonoBehaviour
 
     public void Action()
     {
-        bool tasksComplete = true;
-        string levelJson = JsonHelper.GetJsonObject(File.ReadAllText(jsonPath), "level1");
-        string roomJson = JsonHelper.GetJsonObject(levelJson, "room" + roomName.Replace("EdgeEnterRoom", ""));
-
-        RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
-
-        if (roomName.Contains("EdgeEnterRoom") && roomJson != "Null")
-        {
-            tasksComplete = countClass.count >= info.tasks ? true : false;
-        }
-
-        if (doorActive && tasksComplete)
-        {
-            FindObjectOfType<FrameSwitch>().OpenDoor();
-        }
-
         if (!stopRunning)
         {
             for (int i = 0; i < gameObjects.Length; i++)
             {
-                if (gameObjects[i] && taskTarget == gameObjects[i].name)
+                if (gameObjects[i] && PlayerPrefs.GetString("taskTarget") == gameObjects[i].name)
                 {
                     bool bagIsExist = false;
                     bool mopIsExist = false;
@@ -256,7 +243,6 @@ public class Person : MonoBehaviour
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
                         // No bag in inventory
-                        print(taskTarget);
                         print("No bag");
                         CloudAnimation("bag");
                     }
@@ -291,9 +277,21 @@ public class Person : MonoBehaviour
             cartMenuIsOpen = true;
         }
 
-        if (enterNextFloor)
+        bool tasksComplete = true;
+        TextAsset txtAsset = (TextAsset)Resources.Load("tasks", typeof(TextAsset));
+        string levelJson = JsonHelper.GetJsonObject(txtAsset.ToString(), "level1");
+        string roomJson = JsonHelper.GetJsonObject(levelJson, "room" + roomName.Replace("EdgeEnterRoom", ""));
+
+        RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
+
+        if (roomName.Contains("EdgeEnterRoom") && roomJson != null)
         {
-            //SceneManager.LoadScene(2);
+            tasksComplete = countClass.count >= info.tasks ? true : false;
+        }
+
+        if (doorActive && tasksComplete)
+        {
+            FindObjectOfType<FrameSwitch>().OpenDoor();
         }
     }
 
@@ -302,6 +300,7 @@ public class Person : MonoBehaviour
         yield return new WaitForSeconds(1);
         countClass.countChange();
         Destroy(gameObjects[task]);
+        print("destroyTask");
         taskTarget = "";
 
         if (countClass.count < 1)
@@ -333,13 +332,6 @@ public class Person : MonoBehaviour
 
     void Update()
     {
-        bool isWater = Physics2D.OverlapCircle(GameObject.Find("Foothold").GetComponent<Transform>().position, 0.2f, LayerMask.GetMask("Water"));
-
-        if (isWater)
-        {
-            State = States.swiming;
-        }
-
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
         GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
     }

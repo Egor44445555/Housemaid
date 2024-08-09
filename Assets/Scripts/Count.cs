@@ -7,6 +7,7 @@ public class Count : MonoBehaviour
 {
     private GameObject[] gameObjects;
     public Text countText;
+    public Text countText2;
     public int count = 0;
 
     public void countChange()
