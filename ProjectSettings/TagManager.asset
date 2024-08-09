@@ -26,6 +26,7 @@ TagManager:
   - CloudToiletPaper
   - CloudTowels
   - Cloud
+  - Elevator
   layers:
   - Default
   - TransparentFX

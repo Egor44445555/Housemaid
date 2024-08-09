@@ -27,6 +27,7 @@ public class Person : MonoBehaviour
     private string roomName = null;
     private int tasksCount;
     private bool lookUp = false;
+    private bool lookDown = false;
     public bool stopRunning = false;
     private bool enterNextFloor = false;
     private Text text;
@@ -44,6 +45,18 @@ public class Person : MonoBehaviour
         set
         {
             anim.SetInteger("state", (int)value);
+        }
+    }
+    
+    private StatesElevator StateElevator
+    {
+        get
+        {
+            return (StatesElevator)GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().GetInteger("state");
+        }
+        set
+        {
+            GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().SetInteger("state", (int)value);
         }
     }
 
@@ -82,6 +95,7 @@ public class Person : MonoBehaviour
         if (!stopRunning)
         {
             lookUp = true;
+            lookDown = false;
             rb.velocity = transform.up * normalSpeed;
             State = States.runUp;
         }
@@ -94,8 +108,9 @@ public class Person : MonoBehaviour
         if (!stopRunning)
         {
             lookUp = false;
+            lookDown = true;
             rb.velocity = -transform.up * normalSpeed;
-            State = States.run;
+            State = States.runDown;
         }
 
         ChangeOrderLayerCart();
@@ -111,6 +126,7 @@ public class Person : MonoBehaviour
         if (!stopRunning)
         {
             lookUp = false;
+            lookDown = false;
             rb.velocity = transform.right * speed;
             sprite.flipX = speed <= 0f;
             State = States.run;
@@ -124,6 +140,7 @@ public class Person : MonoBehaviour
         if (!stopRunning)
         {
             lookUp = false;
+            lookDown = false;
             rb.velocity = -transform.right * normalSpeed;
             sprite.flipX = speed <= 0f;
             State = States.run;
@@ -137,11 +154,14 @@ public class Person : MonoBehaviour
         speed = 0f;
         rb.velocity = transform.right * speed;
         
-
         if (lookUp)
         {
             State = States.looksUp;
-        } else
+        } else if (lookDown)
+        {
+            State = States.looksDown;
+        }
+        else
         {
             State = States.idle;
         }
@@ -238,7 +258,7 @@ public class Person : MonoBehaviour
                     {
                         // Using a bag
                         stopRunning = true;
-                        State = States.action;
+                        //State = States.action;
                         StartCoroutine(destroyTask(i));
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
@@ -250,7 +270,7 @@ public class Person : MonoBehaviour
                     {
                         // Using a mop
                         stopRunning = true;
-                        State = States.action;
+                        State = States.actionMop;
                         StartCoroutine(destroyTask(i));
                     } else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
                     {
@@ -261,7 +281,7 @@ public class Person : MonoBehaviour
                     {
                         // Using other stuff in inventory
                         stopRunning = true;
-                        State = States.action;
+                        //State = States.action;
                         StartCoroutine(destroyTask(i));
                     }
 
@@ -305,7 +325,7 @@ public class Person : MonoBehaviour
 
         if (countClass.count < 1)
         {
-            Death();
+            Completed();
         } else
         {
             State = States.idle;
@@ -314,10 +334,9 @@ public class Person : MonoBehaviour
         stopRunning = false;
     }
 
-    public void Death()
+    public void Completed()
     {
-        State = States.death;
-        print("Death");
+        print("Completed");
     }
 
     void Start()
@@ -328,6 +347,17 @@ public class Person : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         gameObjects = GameObject.FindGameObjectsWithTag("Task");
+
+        StateElevator = StatesElevator.open;
+        StartCoroutine(closeElevator());
+    }
+
+    IEnumerator closeElevator()
+    {
+        yield return new WaitForSeconds(2);
+        StateElevator = StatesElevator.close;
+        yield return new WaitForSeconds(2);
+        StateElevator = StatesElevator.idle;
     }
 
     void Update()
@@ -341,10 +371,17 @@ public enum States {
     idle,
     run,
     runUp,
-    swiming,
-    death,
     looksUp,
-    action
+    runDown,
+    looksDown,
+    actionMop
+}
+
+public enum StatesElevator
+{
+    idle,
+    open,
+    close
 }
 
 [System.Serializable]
