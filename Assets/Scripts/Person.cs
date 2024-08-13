@@ -35,6 +35,7 @@ public class Person : MonoBehaviour
     public Vector3 doorEnterPoint;
     private string jsonPath = "tasks.json";
     private int currentTaskCount = 0;
+    private bool cloudActive = false;
 
     private States State
     {
@@ -232,6 +233,8 @@ public class Person : MonoBehaviour
 
     public void Action()
     {
+        cloudActive = true;
+
         if (!stopRunning)
         {
             for (int i = 0; i < gameObjects.Length; i++)
@@ -313,14 +316,16 @@ public class Person : MonoBehaviour
         {
             FindObjectOfType<FrameSwitch>().OpenDoor();
         }
+
+        Caching.ClearCache();
     }
 
     IEnumerator destroyTask(int task)
     {
         yield return new WaitForSeconds(1);
         countClass.countChange();
-        Destroy(gameObjects[task]);
-        print("destroyTask");
+        //Destroy(gameObjects[task]);
+        gameObjects[task].transform.position = new Vector2(0, 0);
         taskTarget = "";
 
         if (countClass.count < 1)
@@ -362,8 +367,16 @@ public class Person : MonoBehaviour
 
     void Update()
     {
-        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-        GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
+        if (cloudActive = true) {
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+            GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
+        }
+    }
+
+    IEnumerator closeCloud()
+    {
+        yield return new WaitForSeconds(2);
+        cloudActive = false;
     }
 }
 

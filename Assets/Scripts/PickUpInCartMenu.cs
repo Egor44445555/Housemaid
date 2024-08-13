@@ -19,8 +19,7 @@ public class PickUpInCartMenu : MonoBehaviour
         for (int i = 0; i < inventory.slots.Length; i++)
         {
             if (inventory.isFull[i] == false)
-            {
-                
+            {                
                 bool removeStuff = true;
                 inventory.isFull[i] = true;
                 Instantiate(slotButton, inventory.slots[i].transform);

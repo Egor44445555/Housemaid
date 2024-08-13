@@ -55,6 +55,7 @@ Library: C:\Unity\Housemaid\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst
 --assembly-defines=mscorlib;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Unity\Housemaid\Temp\Burst
+--debug=Full
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.18f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Unity\Housemaid\Library\Burst
 --output=C:\Unity\Housemaid\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
