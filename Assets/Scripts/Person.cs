@@ -23,7 +23,6 @@ public class Person : MonoBehaviour
     private bool enterCartMenu = false;
     private bool doorActive = false;
     private float speed;
-    private string taskTarget = null;
     private string roomName = null;
     private int tasksCount;
     private bool lookUp = false;
@@ -170,7 +169,6 @@ public class Person : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        taskTarget = collider.CompareTag("Task") ? collider.name : null;
         doorActive = collider.tag == "Door" ? true : false;
         enterNextFloor = collider.CompareTag("Floor");
         roomName = collider.name;
@@ -182,7 +180,9 @@ public class Person : MonoBehaviour
     void OnTriggerExit2D(Collider2D collider)
     {
         doorActive = false;
-        roomName = collider.name;      
+        roomName = collider.name;
+        PlayerPrefs.SetString("taskTarget", "");
+        PlayerPrefs.Save();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -198,13 +198,12 @@ public class Person : MonoBehaviour
         if (collision.gameObject.name == "Cart")
         {
             enterCartMenu = false;
-        }        
+        }
     }
 
     void CloudAnimation(string inventory)
     {
         Transform[] objChild = GameObject.FindGameObjectWithTag("Cloud").transform.GetComponentsInChildren<Transform>();
-
         GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("show", true);
 
         foreach (Transform child in objChild)
@@ -229,6 +228,9 @@ public class Person : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("show", false);
+        GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("hide", true);
+        yield return new WaitForSeconds(0.50f);
+        GameObject.FindGameObjectWithTag("Cloud").GetComponent<Animator>().SetBool("hide", false);
     }
 
     public void Action()
@@ -261,12 +263,12 @@ public class Person : MonoBehaviour
                     {
                         // Using a bag
                         stopRunning = true;
-                        //State = States.action;
+                        State = States.actionBag;
                         StartCoroutine(destroyTask(i));
-                    } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
+                    }
+                    else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
                         // No bag in inventory
-                        print("No bag");
                         CloudAnimation("bag");
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
@@ -275,12 +277,13 @@ public class Person : MonoBehaviour
                         stopRunning = true;
                         State = States.actionMop;
                         StartCoroutine(destroyTask(i));
-                    } else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
+                    }
+                    else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
                     {
                         // No mop in inventory
-                        print("No mop");
                         CloudAnimation("mop");
-                    } else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
+                    }
+                    else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
                     {
                         // Using other stuff in inventory
                         stopRunning = true;
@@ -316,36 +319,24 @@ public class Person : MonoBehaviour
         {
             FindObjectOfType<FrameSwitch>().OpenDoor();
         }
-
-        Caching.ClearCache();
     }
 
     IEnumerator destroyTask(int task)
     {
         yield return new WaitForSeconds(1);
         countClass.countChange();
-        //Destroy(gameObjects[task]);
         gameObjects[task].transform.position = new Vector2(0, 0);
-        taskTarget = "";
-
-        if (countClass.count < 1)
-        {
-            Completed();
-        } else
-        {
-            State = States.idle;
-        }
-
         stopRunning = false;
-    }
-
-    public void Completed()
-    {
-        print("Completed");
+        State = States.idle;
+        PlayerPrefs.SetString("taskTarget", "");
+        PlayerPrefs.Save();
     }
 
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         speed = 0f;
         rb = GetComponent<Rigidbody2D>();
@@ -367,7 +358,8 @@ public class Person : MonoBehaviour
 
     void Update()
     {
-        if (cloudActive = true) {
+        if (cloudActive = true)
+        {
             Transform player = GameObject.FindGameObjectWithTag("Player").transform;
             GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
         }
@@ -387,7 +379,8 @@ public enum States {
     looksUp,
     runDown,
     looksDown,
-    actionMop
+    actionMop,
+    actionBag
 }
 
 public enum StatesElevator
