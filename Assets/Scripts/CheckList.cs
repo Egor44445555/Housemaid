@@ -12,6 +12,7 @@ public class CheckList : MonoBehaviour
     {
         checkList.SetActive(true);
         FindObjectOfType<Person>().stopRunning = true;
+        FindObjectOfType<Count>().ÑountChange();
     }
 
     public void CloseCheckList()

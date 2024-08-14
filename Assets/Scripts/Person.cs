@@ -8,17 +8,16 @@ using System.IO;
 
 public class Person : MonoBehaviour
 {
+    [SerializeField] public float normalSpeed = 3f;
+
     private Inventory inventory;
     private FrameSwitch frameSwitch;
-
-    [SerializeField] public float normalSpeed = 3f;
-    [SerializeField] public Count countClass;
-
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
     private GameObject[] gameObjects;
     public GameObject cartMenu;
+
     public bool cartMenuIsOpen = false;
     private bool enterCartMenu = false;
     private bool doorActive = false;
@@ -266,6 +265,8 @@ public class Person : MonoBehaviour
                         stopRunning = true;
                         State = States.actionBag;
                         StartCoroutine(destroyTask(i));
+                        PlayerPrefs.SetString("task" + gameObjects[i].layer, (int.Parse(PlayerPrefs.GetString("task" + gameObjects[i].layer)) + 1).ToString());
+                        PlayerPrefs.Save();
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
@@ -278,6 +279,8 @@ public class Person : MonoBehaviour
                         stopRunning = true;
                         State = States.actionMop;
                         StartCoroutine(destroyTask(i));
+                        PlayerPrefs.SetString("task" + gameObjects[i].layer, (int.Parse(PlayerPrefs.GetString("task" + gameObjects[i].layer)) + 1).ToString());
+                        PlayerPrefs.Save();
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
                     {
@@ -290,6 +293,8 @@ public class Person : MonoBehaviour
                         stopRunning = true;
                         //State = States.action;
                         StartCoroutine(destroyTask(i));
+                        PlayerPrefs.SetString("task" + gameObjects[i].layer, (int.Parse(PlayerPrefs.GetString("task" + gameObjects[i].layer)) + 1).ToString());
+                        PlayerPrefs.Save();
                     }
 
                     break;
@@ -304,16 +309,22 @@ public class Person : MonoBehaviour
             cartMenuIsOpen = true;
         }
 
+        var currentScene = SceneManager.GetActiveScene();
+        var currentSceneName = currentScene.name;
+
+        string countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+        string countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        string countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
         bool tasksComplete = true;
         TextAsset txtAsset = (TextAsset)Resources.Load("tasks", typeof(TextAsset));
-        string levelJson = JsonHelper.GetJsonObject(txtAsset.ToString(), "level1");
-        string roomJson = JsonHelper.GetJsonObject(levelJson, "room" + roomName.Replace("EdgeEnterRoom", ""));
-
+        string levelJson = JsonHelper.GetJsonObject(txtAsset.ToString(), currentSceneName);
+        string roomJson = JsonHelper.GetJsonObject(levelJson, "Room" + roomName.Replace("EdgeEnterRoom", ""));
         RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
 
         if (roomName.Contains("EdgeEnterRoom") && roomJson != null)
         {
-            tasksComplete = countClass.count >= info.tasks ? true : false;
+            tasksComplete = int.Parse(countTrash) < info.collectTrash ? false : true;
+            tasksComplete = int.Parse(countPuddle) < info.removePuddle ? false : true;
         }
 
         if (doorActive && tasksComplete)
@@ -325,10 +336,10 @@ public class Person : MonoBehaviour
     IEnumerator destroyTask(int task)
     {
         yield return new WaitForSeconds(1);
-        countClass.countChange();
         gameObjects[task].transform.position = new Vector2(0, 0);
         stopRunning = false;
         State = States.idle;
+
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
     }
@@ -344,6 +355,12 @@ public class Person : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         gameObjects = GameObject.FindGameObjectsWithTag("Task");
+
+        foreach (GameObject task in gameObjects)
+        {
+            PlayerPrefs.SetString("task" + task.layer, "0");
+            PlayerPrefs.Save();
+        }
 
         StateElevator = StatesElevator.close;
         StartCoroutine(closeElevator());
@@ -392,6 +409,7 @@ public enum StatesElevator
 [System.Serializable]
 public class RoomInfo
 {
-    public int tasks;
-    public bool access;
+    public int collectTrash;
+    public int removePuddle;
+    public string mainTask;
 }

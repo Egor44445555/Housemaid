@@ -5,25 +5,54 @@ using UnityEngine.UI;
 
 public class Count : MonoBehaviour
 {
-    private GameObject[] gameObjects;
-    public Text countText;
-    public int count = 0;
+    public string taskName;
+    public string countTrash = "0";
+    private string countPuddle = "0";
+    private string countTask = "0";
 
-    public void countChange()
+    public void СountChange()
     {
-        count = count + 1;
+        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();        
 
-        if (countText.name != "TaskNextFloor")
+        foreach (var obj in FindObjectsOfType<Count>())
         {
-            countText.text = "Дел для комнаты " + countText.name.Replace("CountTaskRoom", "") + ": " + count.ToString() + " / 40";
-        }        
+            if (obj.taskName == "Trash")
+            {
+                obj.GetComponent<Text>().text = "Собрать мусор: " + countTrash + " / 10";
+            }
+
+            if (obj.taskName == "Puddle")
+            {
+                obj.GetComponent<Text>().text = "Убрать лужу: " + countPuddle + " / 3";
+            }
+
+            if (obj.taskName == "TaskNextFloor")
+            {
+                obj.GetComponent<Text>().text = countTask + " / 1";
+            }
+        }
     }
 
     void Start()
     {
-        if (countText.name != "TaskNextFloor")
+        foreach (var obj in FindObjectsOfType<Count>())
         {
-            countText.text = "Дел для комнаты " + countText.name.Replace("CountTaskRoom", "") + ": " + count.ToString() + " / 40";
-        }        
+            if (obj.taskName == "Trash")
+            {
+                obj.GetComponent<Text>().text = "Собрать мусор: " + countTrash + " / 10";
+            }
+
+            if (obj.taskName == "Puddle")
+            {
+                obj.GetComponent<Text>().text = "Убрать лужу: " + countPuddle + " / 3";
+            }
+
+            if (obj.taskName == "TaskNextFloor")
+            {
+                obj.GetComponent<Text>().text = countTask + " / 1";
+            }
+        }     
     }
 }
