@@ -26,6 +26,8 @@ public class FrameSwitch : MonoBehaviour
 
     public void OpenDoor()
     {
+        rooms = GameObject.FindGameObjectsWithTag("Room");
+
         foreach (GameObject room in rooms)
         {
             room.SetActive(false);

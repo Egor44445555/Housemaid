@@ -32,8 +32,6 @@ public class Person : MonoBehaviour
     private Text text;
     public GameObject newFrame;
     public Vector3 doorEnterPoint;
-    private string jsonPath = "tasks.json";
-    private int currentTaskCount = 0;
     private bool cloudActive = false;
 
     private States State
@@ -56,7 +54,10 @@ public class Person : MonoBehaviour
         }
         set
         {
-            GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().SetInteger("state", (int)value);
+            if (GameObject.FindGameObjectWithTag("Elevator"))
+            {
+                GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().SetInteger("state", (int)value);
+            }            
         }
     }
 
@@ -344,21 +345,19 @@ public class Person : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         gameObjects = GameObject.FindGameObjectsWithTag("Task");
 
-        StateElevator = StatesElevator.open;
+        StateElevator = StatesElevator.close;
         StartCoroutine(closeElevator());
     }
 
     IEnumerator closeElevator()
     {
         yield return new WaitForSeconds(2);
-        StateElevator = StatesElevator.close;
-        yield return new WaitForSeconds(2);
         StateElevator = StatesElevator.idle;
     }
 
     void Update()
     {
-        if (cloudActive = true)
+        if (cloudActive == true)
         {
             Transform player = GameObject.FindGameObjectWithTag("Player").transform;
             GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);

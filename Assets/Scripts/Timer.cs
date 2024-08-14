@@ -22,11 +22,14 @@ public class Timer : MonoBehaviour
         string zeroMinutes = minutes < 10 ? "0" : "";
         string zeroSeconds = seconds < 10 ? "0" : "";
 
-        builder.Length = 0;
-        builder.Append(zeroMinutes + minutes.ToString());
-        builder.Append(":");
-        builder.Append(zeroSeconds + seconds);
-        timerText.text = builder.ToString();
+        if (builder != null)
+        {
+            builder.Length = 0;
+            builder.Append(zeroMinutes + minutes.ToString());
+            builder.Append(":");
+            builder.Append(zeroSeconds + seconds);
+            timerText.text = builder.ToString();
+        }        
 
         if (lifeTime > 1)
         {

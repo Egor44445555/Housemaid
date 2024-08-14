@@ -7,24 +7,23 @@ public class Count : MonoBehaviour
 {
     private GameObject[] gameObjects;
     public Text countText;
-    public Text countText2;
     public int count = 0;
 
     public void countChange()
     {
         count = count + 1;
-        countText.text = "Tasks: " + count.ToString() + " / 40";
-        //PlayerPrefs.SetInt("Count", count);
-        //PlayerPrefs.Save();
+
+        if (countText.name != "TaskNextFloor")
+        {
+            countText.text = "Дел для комнаты " + countText.name.Replace("CountTaskRoom", "") + ": " + count.ToString() + " / 40";
+        }        
     }
 
     void Start()
     {
-        if (PlayerPrefs.HasKey("Count"))
+        if (countText.name != "TaskNextFloor")
         {
-            //print(PlayerPrefs.GetInt("Count", count));
-        }
-
-        countText.text = "Tasks: " + count.ToString() + " / 40";
+            countText.text = "Дел для комнаты " + countText.name.Replace("CountTaskRoom", "") + ": " + count.ToString() + " / 40";
+        }        
     }
 }
