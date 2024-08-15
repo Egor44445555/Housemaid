@@ -5,13 +5,14 @@ using UnityEngine;
 public class FrameSwitch : MonoBehaviour
 {
     [SerializeField] public GameObject playerPositionStayEnter;
-    [SerializeField] public Person person;
+    GameObject player;
 
     public GameObject activeFrame;
     private GameObject[] rooms;
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         rooms = GameObject.FindGameObjectsWithTag("Room");
     }
 
@@ -19,13 +20,13 @@ public class FrameSwitch : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            person.newFrame = activeFrame;
-            person.doorEnterPoint = playerPositionStayEnter.transform.position;
+            player.GetComponent<Person>().newFrame = activeFrame;
+            player.GetComponent<Person>().doorEnterPoint = playerPositionStayEnter.transform.position;
         }
     }
 
     public void OpenDoor()
-    {
+    {        
         rooms = GameObject.FindGameObjectsWithTag("Room");
 
         foreach (GameObject room in rooms)
@@ -33,8 +34,8 @@ public class FrameSwitch : MonoBehaviour
             room.SetActive(false);
         }
 
-        person.transform.position = new Vector3(0, 0, 0);
-        person.newFrame.SetActive(true);
-        person.transform.position = person.doorEnterPoint;
+        player.GetComponent<Transform>().transform.position = new Vector3(0, 0, 0);
+        player.GetComponent<Person>().newFrame.SetActive(true);
+        player.GetComponent<Transform>().transform.position = player.GetComponent<Person>().doorEnterPoint;
     }
 }

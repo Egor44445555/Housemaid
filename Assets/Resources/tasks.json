@@ -1,7 +1,7 @@
 {
   "Level1": {
     "Room1": {
-      "collectTrash": 3
+      "collectTrash": 0
     },
     "Room2": {
       "collectTrash": 5,

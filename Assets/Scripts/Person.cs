@@ -12,6 +12,7 @@ public class Person : MonoBehaviour
 
     private Inventory inventory;
     private FrameSwitch frameSwitch;
+    private Door door;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
@@ -29,9 +30,15 @@ public class Person : MonoBehaviour
     public bool stopRunning = false;
     private bool enterNextFloor = false;
     private Text text;
+    private GameObject elevator;
     public GameObject newFrame;
+    public GameObject doorEnter;
     public Vector3 doorEnterPoint;
     private bool cloudActive = false;
+    string countTrash;
+    string countPuddle;
+    string countTask;
+    bool tasksComplete = true;
 
     private States State
     {
@@ -49,13 +56,13 @@ public class Person : MonoBehaviour
     {
         get
         {
-            return (StatesElevator)GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().GetInteger("state");
+            return (StatesElevator)elevator.GetComponent<Animator>().GetInteger("state");
         }
         set
         {
-            if (GameObject.FindGameObjectWithTag("Elevator"))
+            if (elevator)
             {
-                GameObject.FindGameObjectWithTag("Elevator").GetComponent<Animator>().SetInteger("state", (int)value);
+                elevator.GetComponent<Animator>().SetInteger("state", (int)value);
             }            
         }
     }
@@ -169,10 +176,10 @@ public class Person : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        doorActive = collider.tag == "Door" ? true : false;
+        doorEnter = collider.CompareTag("Door") ? collider.gameObject : null;
+        doorActive = collider.CompareTag("Door") ? true : false;
         enterNextFloor = collider.CompareTag("Floor");
-        roomName = collider.name;
-
+        roomName = collider.gameObject.GetComponent<FrameSwitch>() ? collider.gameObject.GetComponent<FrameSwitch>().activeFrame.name : null;
         PlayerPrefs.SetString("taskTarget", collider.CompareTag("Task") ? collider.name : "");
         PlayerPrefs.Save();
     }
@@ -180,7 +187,7 @@ public class Person : MonoBehaviour
     void OnTriggerExit2D(Collider2D collider)
     {
         doorActive = false;
-        roomName = collider.name;
+        roomName = collider.gameObject.GetComponent<FrameSwitch>() ? collider.gameObject.GetComponent<FrameSwitch>().activeFrame.name : null;
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
     }
@@ -309,28 +316,38 @@ public class Person : MonoBehaviour
             cartMenuIsOpen = true;
         }
 
-        var currentScene = SceneManager.GetActiveScene();
-        var currentSceneName = currentScene.name;
+        var taskInfo = JsonHelper.GetJsonValue(roomName);
+        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
 
-        string countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
-        string countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
-        string countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
-        bool tasksComplete = true;
-        TextAsset txtAsset = (TextAsset)Resources.Load("tasks", typeof(TextAsset));
-        string levelJson = JsonHelper.GetJsonObject(txtAsset.ToString(), currentSceneName);
-        string roomJson = JsonHelper.GetJsonObject(levelJson, "Room" + roomName.Replace("EdgeEnterRoom", ""));
-        RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
 
-        if (roomName.Contains("EdgeEnterRoom") && roomJson != null)
+        if (roomName != null && taskInfo != null)
         {
-            tasksComplete = int.Parse(countTrash) < info.collectTrash ? false : true;
-            tasksComplete = int.Parse(countPuddle) < info.removePuddle ? false : true;
+            tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle ? false : true;
         }
 
         if (doorActive && tasksComplete)
         {
-            FindObjectOfType<FrameSwitch>().OpenDoor();
+            if (FindObjectOfType<Door>())
+            {
+                FindObjectOfType<Door>().OpenDoor(doorEnter);
+                StartCoroutine(OpenDoor());
+            }
+            else
+            {
+                FindObjectOfType<FrameSwitch>().OpenDoor();
+            }
         }
+    }
+
+    IEnumerator OpenDoor()
+    {
+        yield return new WaitForSeconds(0.30f);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        yield return new WaitForSeconds(0.30f);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+        FindObjectOfType<FrameSwitch>().OpenDoor();
     }
 
     IEnumerator destroyTask(int task)
@@ -349,12 +366,16 @@ public class Person : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
 
+        elevator = GameObject.FindGameObjectWithTag("Elevator");
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         speed = 0f;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         gameObjects = GameObject.FindGameObjectsWithTag("Task");
+        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
 
         foreach (GameObject task in gameObjects)
         {

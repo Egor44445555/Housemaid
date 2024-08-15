@@ -3,9 +3,22 @@
 ﻿
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JsonHelper
 {
+    public static RoomInfo GetJsonValue(string room)
+    {
+        var currentScene = SceneManager.GetActiveScene();
+        TextAsset txtAsset = (TextAsset)Resources.Load("tasks", typeof(TextAsset));
+        string levelJson = JsonHelper.GetJsonObject(txtAsset.ToString(), currentScene.name);
+        string roomJson = JsonHelper.GetJsonObject(levelJson, room);
+
+        RoomInfo info = JsonUtility.FromJson<RoomInfo>(roomJson);
+
+        return info;
+    }
 
     public static string GetJsonObject(string jsonString, string handle)
     {
