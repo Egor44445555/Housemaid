@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class Slot : MonoBehaviour
 {
     private Inventory inventory;
+    private Storage storage;
     public int i;
 
     void Start()
@@ -22,12 +24,18 @@ public class Slot : MonoBehaviour
 
     public void DropItem()
     {
+        int count = 0;
+        int countToiletPaper = 0;
+        int countTowels = 0;
+
         foreach (Transform child in transform)
         {
-            if (!FindObjectOfType<Person>().cartMenuIsOpen)
+            bool destroySlot = true;
+
+            if (FindObjectOfType<Person>().popupIsOpen == "")
             {
                 child.GetComponent<Spawn>().SpawnDroppedItem();
-            } else
+            } else if (FindObjectOfType<Person>().popupIsOpen == "CartMenu")
             {
                 string nameStuff = child.gameObject.name.Replace("(Clone)", "");
                 char[] letters = nameStuff.ToCharArray();
@@ -36,8 +44,62 @@ public class Slot : MonoBehaviour
                 GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<RectTransform>().sizeDelta = GameObject.FindGameObjectWithTag(newString + "InCartMenu").GetComponent<PickUpInCartMenu>().sizeStuff;
                 inventory.ChangeStuffInCartOnScene(nameStuff, false);
             }
+            else
+            {
+                string nameSlot = child.name.Replace("(Clone)", "");
 
-            GameObject.Destroy(child.gameObject);
+                if (nameSlot == "toiletPaper")
+                {
+                    for (int i = 0; i < FindObjectOfType<Storage>().toiletPaper.Length; i++)
+                    {
+                        if (FindObjectOfType<Storage>().toiletPaper[i] == false)
+                        {
+                            FindObjectOfType<Storage>().toiletPaper[i] = true;
+                            break;
+                        }
+                    }
+
+                    foreach (bool item in FindObjectOfType<Storage>().toiletPaper)
+                    {
+                        if (item)
+                        {
+                            countToiletPaper++;
+                            count++;
+                        }
+                    }
+
+                    destroySlot = countToiletPaper == FindObjectOfType<Storage>().toiletPaper.Length ? false : true;
+                } else if (nameSlot == "towels")
+                {
+                    for (int i = 0; i < FindObjectOfType<Storage>().towels.Length; i++)
+                    {
+                        if (FindObjectOfType<Storage>().towels[i] == false)
+                        {
+                            FindObjectOfType<Storage>().towels[i] = true;
+                            break;
+                        }
+                    }
+
+                    foreach(bool item in FindObjectOfType<Storage>().towels)
+                    {
+                        if (item)
+                        {
+                            countTowels++;
+                            count++;
+                        }
+                    }
+
+                    print(countTowels);
+                    print(FindObjectOfType<Storage>().towels.Length);
+
+                    destroySlot = countTowels == FindObjectOfType<Storage>().towels.Length ? false : true;
+                }
+            }
+
+            if (destroySlot)
+            {
+                GameObject.Destroy(child.gameObject);
+            }            
 
             for (int i = 0; i < inventory.stuff.Length; i++)
             {

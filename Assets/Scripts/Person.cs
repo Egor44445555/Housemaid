@@ -19,8 +19,9 @@ public class Person : MonoBehaviour
     private GameObject[] gameObjects;
     public GameObject cartMenu;
 
-    public bool cartMenuIsOpen = false;
-    private bool enterCartMenu = false;
+    public string popupIsOpen = "";
+    public GameObject popupObject;
+    private bool enterPopupObject = false;
     private bool doorActive = false;
     private float speed;
     private string roomName = null;
@@ -67,36 +68,6 @@ public class Person : MonoBehaviour
         }
     }
 
-    private void ChangeOrderLayerCart()
-    {
-        if (GameObject.FindGameObjectWithTag("Cart"))
-        {
-            float playerPositionY = GameObject.FindGameObjectWithTag("Player").transform.position.y;
-            float cartPositionY = GameObject.FindGameObjectWithTag("Cart").transform.position.y;
-            int playerOrderLayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().sortingOrder;
-            Transform[] objChild = GameObject.FindGameObjectWithTag("Cart").transform.GetComponentsInChildren<Transform>();
-
-            if (playerPositionY > cartPositionY)
-            {
-                for (var j = 0; j < objChild.Length; j++)
-                {
-                    objChild[j].gameObject.GetComponent<SpriteRenderer>().sortingOrder = playerOrderLayer + 2;
-                }
-
-                GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = playerOrderLayer + 1;
-            }
-            else
-            {
-                for (var j = 0; j < objChild.Length; j++)
-                {
-                    objChild[j].gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
-                }
-
-                GameObject.FindGameObjectWithTag("Cart").GetComponent<SpriteRenderer>().sortingOrder = 2;
-            }
-        }
-    }
-
     public void OnTopButtonDown()
     {
         if (!stopRunning)
@@ -106,8 +77,7 @@ public class Person : MonoBehaviour
             rb.velocity = transform.up * normalSpeed;
             State = States.runUp;
         }
-
-        ChangeOrderLayerCart();
+        MovePerson();
     }
 
     public void OnDownButtonDown()
@@ -120,7 +90,7 @@ public class Person : MonoBehaviour
             State = States.runDown;
         }
 
-        ChangeOrderLayerCart();
+        MovePerson();
     }
 
     public void OnRightButtonDown()
@@ -139,7 +109,7 @@ public class Person : MonoBehaviour
             State = States.run;
         }
 
-        ChangeOrderLayerCart();
+        MovePerson();
     }
 
     public void OnLeftButtonDown()
@@ -153,7 +123,11 @@ public class Person : MonoBehaviour
             State = States.run;
         }
 
-        ChangeOrderLayerCart();
+        MovePerson();
+    }
+
+    private void MovePerson() {
+        FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
     }
 
     public void OnButtonUp()
@@ -194,17 +168,19 @@ public class Person : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Cart")
+        if (collision.gameObject.tag == "PopupOpen")
         {
-            enterCartMenu = true;
+            enterPopupObject = true;
+            popupObject = collision.gameObject;
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Cart")
+        if (collision.gameObject.tag == "PopupOpen")
         {
-            enterCartMenu = false;
+            enterPopupObject = false;
+            popupObject = null;
         }
     }
 
@@ -309,11 +285,11 @@ public class Person : MonoBehaviour
             }
         }
 
-        if (enterCartMenu)
+        if (enterPopupObject)
         {
-            cartMenu.SetActive(true);
+            popupObject.GetComponent<Popup>().popup.SetActive(true);
             stopRunning = true;
-            cartMenuIsOpen = true;
+            popupIsOpen = popupObject.GetComponent<Popup>().popup.name;
         }
 
         var taskInfo = JsonHelper.GetJsonValue(roomName);

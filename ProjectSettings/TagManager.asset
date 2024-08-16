@@ -27,6 +27,8 @@ TagManager:
   - CloudTowels
   - Cloud
   - Elevator
+  - PopupOpen
+  - Popup
   layers:
   - Default
   - TransparentFX
@@ -38,7 +40,7 @@ TagManager:
   - Task
   - Trash
   - Puddle
-  - 
+  - SolidObjectOnStage
   - 
   - 
   - 

@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
     {
         bool removeStuff = true;
 
-        Transform[] objChild = GameObject.FindGameObjectWithTag("Cart").transform.GetComponentsInChildren<Transform>();
+        Transform[] objChild = GameObject.Find("Cart").transform.GetComponentsInChildren<Transform>();
         
         for (var j = 0; j < objChild.Length; j++)
         {
