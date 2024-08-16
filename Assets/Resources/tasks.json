@@ -4,8 +4,8 @@
       "collectTrash": 0
     },
     "Room2": {
-      "collectTrash": 5,
-      "removePuddle": 2
+      "collectTrash": 1,
+      "removePuddle": 0
     },
     "Room3": {
       "collectTrash": 10,

@@ -337,6 +337,7 @@ public class Person : MonoBehaviour
             else
             {
                 FindObjectOfType<FrameSwitch>().OpenDoor();
+                FindObjectOfType<Door>().CheckDoorAccess();
             }
         }
     }
@@ -348,6 +349,11 @@ public class Person : MonoBehaviour
         yield return new WaitForSeconds(0.30f);
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
         FindObjectOfType<FrameSwitch>().OpenDoor();
+
+        if (FindObjectOfType<Door>())
+        {
+            FindObjectOfType<Door>().CheckDoorAccess();
+        }        
     }
 
     IEnumerator destroyTask(int task)
@@ -356,7 +362,7 @@ public class Person : MonoBehaviour
         gameObjects[task].transform.position = new Vector2(0, 0);
         stopRunning = false;
         State = States.idle;
-
+        FindObjectOfType<Door>().CheckDoorAccess();
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
     }
