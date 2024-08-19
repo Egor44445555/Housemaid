@@ -245,6 +245,15 @@ public class Person : MonoBehaviour
                     if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && bagIsExist)
                     {
                         // Using a bag
+
+                        foreach (Transform item in GetComponent<Person>().transform.GetComponentsInChildren<Transform>())
+                        {
+                            if (item.gameObject.name == "BagAction")
+                            {
+                                item.gameObject.GetComponent<AudioSource>().Play();
+                            }
+                        }
+
                         stopRunning = true;
                         State = States.actionBag;
                         StartCoroutine(destroyTask(i));
@@ -259,6 +268,15 @@ public class Person : MonoBehaviour
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
                     {
                         // Using a mop
+
+                        foreach (Transform item in GetComponent<Person>().transform.GetComponentsInChildren<Transform>())
+                        {
+                            if (item.gameObject.name == "MopAction")
+                            {
+                                item.gameObject.GetComponent<AudioSource>().Play();
+                            }
+                        }
+
                         stopRunning = true;
                         State = States.actionMop;
                         StartCoroutine(destroyTask(i));
@@ -307,6 +325,11 @@ public class Person : MonoBehaviour
         {
             if (FindObjectOfType<Door>())
             {
+                if (doorEnter.GetComponent<AudioSource>())
+                {
+                    doorEnter.GetComponent<AudioSource>().Play();
+                }
+                
                 FindObjectOfType<Door>().OpenDoor(doorEnter);
                 StartCoroutine(OpenDoor());
             }

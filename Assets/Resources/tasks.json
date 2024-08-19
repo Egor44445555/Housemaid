@@ -5,15 +5,21 @@
     },
     "Room2": {
       "collectTrash": 1,
-      "removePuddle": 0
+      "removePuddle": 0,
+      "toiletPaper": 5,
+      "towels": 3
     },
     "Room3": {
       "collectTrash": 10,
-      "removePuddle": 3
+      "removePuddle": 3,
+      "toiletPaper": 10,
+      "towels": 6
     },
     "taskNextFloor": {
       "mainTask": "flashDrive",
-      "taskName": "Найти флеш карту памяти"
+      "taskName": "Найти флеш карту памяти",
+      "toiletPaper": 20,
+      "towels": 9
     }
   },
   "Level2": {
