@@ -21,6 +21,7 @@ public class Pickup : MonoBehaviour
             {
                 if (inventory.isFull[i] == false)
                 {
+                    FindAnyObjectByType<AudioManager>().InteractionSound("PickupItem", true);
                     inventory.isFull[i] = true;
                     Instantiate(slotButton, inventory.slots[i].transform);
                     Destroy(gameObject);

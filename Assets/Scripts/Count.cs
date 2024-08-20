@@ -20,12 +20,12 @@ public class Count : MonoBehaviour
         {
             if (obj.taskName == "Trash")
             {
-                obj.GetComponent<Text>().text = "Собрать мусор: " + countTrash + " / 10";
+                obj.GetComponent<Text>().text = countTrash + " / 10";
             }
 
             if (obj.taskName == "Puddle")
             {
-                obj.GetComponent<Text>().text = "Убрать лужу: " + countPuddle + " / 3";
+                obj.GetComponent<Text>().text = countPuddle + " / 3";
             }
 
             if (obj.taskName == "TaskNextFloor")
@@ -41,12 +41,12 @@ public class Count : MonoBehaviour
         {
             if (obj.taskName == "Trash")
             {
-                obj.GetComponent<Text>().text = "Собрать мусор: " + countTrash + " / 10";
+                obj.GetComponent<Text>().text = countTrash + " / 10";
             }
 
             if (obj.taskName == "Puddle")
             {
-                obj.GetComponent<Text>().text = "Убрать лужу: " + countPuddle + " / 3";
+                obj.GetComponent<Text>().text = countPuddle + " / 3";
             }
 
             if (obj.taskName == "TaskNextFloor")

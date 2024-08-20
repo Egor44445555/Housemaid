@@ -17,24 +17,31 @@ public class Person : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     private GameObject[] gameObjects;
-    public GameObject cartMenu;
 
+    [HideInInspector]
     public string popupIsOpen = "";
+    [HideInInspector]
     public GameObject popupObject;
+    [HideInInspector]
+    public bool stopRunning = false;
+    [HideInInspector]
+    public GameObject newFrame;
+    [HideInInspector]
+    public GameObject doorEnter;
+    [HideInInspector]
+    public Vector3 doorEnterPoint;
+
     private bool enterPopupObject = false;
     private bool doorActive = false;
     private float speed;
     private string roomName = null;
     private int tasksCount;
     private bool lookUp = false;
-    private bool lookDown = false;
-    public bool stopRunning = false;
+    private bool lookDown = false;    
     private bool enterNextFloor = false;
     private Text text;
-    private GameObject elevator;
-    public GameObject newFrame;
-    public GameObject doorEnter;
-    public Vector3 doorEnterPoint;
+    private GameObject elevator;    
+    
     private bool cloudActive = false;
     string countTrash;
     string countPuddle;
@@ -104,13 +111,82 @@ public class Person : MonoBehaviour
         {
             lookUp = false;
             lookDown = false;
+
             rb.velocity = transform.right * speed;
+
             sprite.flipX = speed <= 0f;
             State = States.run;
         }
 
         MovePerson();
     }
+
+    public void OnRightTopButtonDown()
+    {
+        if (speed >= 0f)
+        {
+            speed = normalSpeed;
+        }
+
+        if (!stopRunning)
+        {
+            lookUp = false;
+            lookDown = false;
+            rb.velocity = new Vector3(transform.right.x * speed, transform.up.y * speed / 2, 0);
+            sprite.flipX = speed <= 0f;
+            State = States.run;
+        }
+
+        MovePerson();
+    }
+
+    public void OnRightDownButtonDown()
+    {
+        if (speed >= 0f)
+        {
+            speed = normalSpeed;
+        }
+
+        if (!stopRunning)
+        {
+            lookUp = false;
+            lookDown = false;
+            rb.velocity = new Vector3(transform.right.x * speed, -transform.up.y * speed / 2, 0);
+            sprite.flipX = speed <= 0f;
+            State = States.run;
+        }
+
+        MovePerson();
+    }
+
+    public void OnLeftTopButtonDown()
+    {
+        if (!stopRunning)
+        {
+            lookUp = false;
+            lookDown = false;
+            rb.velocity = new Vector3(-transform.right.x * normalSpeed, transform.up.y * normalSpeed / 2, 0);
+            sprite.flipX = speed <= 0f;
+            State = States.run;
+        }
+
+        MovePerson();
+    }
+
+    public void OnLeftDownButtonDown()
+    {
+        if (!stopRunning)
+        {
+            lookUp = false;
+            lookDown = false;
+            rb.velocity = new Vector3(-transform.right.x * normalSpeed, -transform.up.y * normalSpeed / 2, 0);
+            sprite.flipX = speed <= 0f;
+            State = States.run;
+        }
+
+        MovePerson();
+    }
+
 
     public void OnLeftButtonDown()
     {
@@ -127,6 +203,7 @@ public class Person : MonoBehaviour
     }
 
     private void MovePerson() {
+        FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", true);
         FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
     }
 
@@ -146,6 +223,8 @@ public class Person : MonoBehaviour
         {
             State = States.idle;
         }
+
+        FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", false);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -156,6 +235,11 @@ public class Person : MonoBehaviour
         roomName = collider.gameObject.GetComponent<FrameSwitch>() ? collider.gameObject.GetComponent<FrameSwitch>().activeFrame.name : null;
         PlayerPrefs.SetString("taskTarget", collider.CompareTag("Task") ? collider.name : "");
         PlayerPrefs.Save();
+
+        if (collider.CompareTag("Sound"))
+        {
+            StartCoroutine(AudioFade.FadeIn(FindAnyObjectByType<AudioManager>().GetSound("Birds"), 0.5f, Mathf.SmoothStep));
+        }
     }
 
     void OnTriggerExit2D(Collider2D collider)
@@ -164,6 +248,11 @@ public class Person : MonoBehaviour
         roomName = collider.gameObject.GetComponent<FrameSwitch>() ? collider.gameObject.GetComponent<FrameSwitch>().activeFrame.name : null;
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
+
+        if (collider.CompareTag("Sound"))
+        {
+            StartCoroutine(AudioFade.FadeOut(FindAnyObjectByType<AudioManager>().GetSound("Birds"), 0.5f, Mathf.SmoothStep));
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -204,6 +293,7 @@ public class Person : MonoBehaviour
             }
         }
 
+        FindAnyObjectByType<AudioManager>().InteractionSound("Snort", true);
         StartCoroutine(hideCloud());
     }
 
@@ -246,13 +336,17 @@ public class Person : MonoBehaviour
                     {
                         // Using a bag
 
-                        foreach (Transform item in GetComponent<Person>().transform.GetComponentsInChildren<Transform>())
+                        if (gameObjects[i].name.Contains("bottle"))
                         {
-                            if (item.gameObject.name == "BagAction")
-                            {
-                                item.gameObject.GetComponent<AudioSource>().Play();
-                            }
+                            FindAnyObjectByType<AudioManager>().InteractionSound("BottlePickup", true);
                         }
+
+                        if (gameObjects[i].name.Contains("trashPaper"))
+                        {
+                            FindAnyObjectByType<AudioManager>().InteractionSound("PaperCrunchy", true);
+                        }
+
+                        FindAnyObjectByType<AudioManager>().InteractionSound("BagAction", true);
 
                         stopRunning = true;
                         State = States.actionBag;
@@ -269,13 +363,7 @@ public class Person : MonoBehaviour
                     {
                         // Using a mop
 
-                        foreach (Transform item in GetComponent<Person>().transform.GetComponentsInChildren<Transform>())
-                        {
-                            if (item.gameObject.name == "MopAction")
-                            {
-                                item.gameObject.GetComponent<AudioSource>().Play();
-                            }
-                        }
+                        FindAnyObjectByType<AudioManager>().InteractionSound("MopAction", true);
 
                         stopRunning = true;
                         State = States.actionMop;
@@ -288,15 +376,6 @@ public class Person : MonoBehaviour
                         // No mop in inventory
                         CloudAnimation("mop");
                     }
-                    else if (gameObjects[i] && LayerMask.NameToLayer("Trash") != gameObjects[i].layer)
-                    {
-                        // Using other stuff in inventory
-                        stopRunning = true;
-                        //State = States.action;
-                        StartCoroutine(destroyTask(i));
-                        PlayerPrefs.SetString("task" + gameObjects[i].layer, (int.Parse(PlayerPrefs.GetString("task" + gameObjects[i].layer)) + 1).ToString());
-                        PlayerPrefs.Save();
-                    }
 
                     break;
                 }
@@ -305,6 +384,14 @@ public class Person : MonoBehaviour
 
         if (enterPopupObject)
         {
+            if (popupObject.GetComponent<Popup>().popup.name.Contains("Closet"))
+            {
+                FindAnyObjectByType<AudioManager>().InteractionSound("ClosetOpen", true);
+            } else
+            {
+                FindAnyObjectByType<AudioManager>().InteractionSound("ButtonTap", true);
+            }
+            
             popupObject.GetComponent<Popup>().popup.SetActive(true);
             stopRunning = true;
             popupIsOpen = popupObject.GetComponent<Popup>().popup.name;
@@ -325,11 +412,7 @@ public class Person : MonoBehaviour
         {
             if (FindObjectOfType<Door>())
             {
-                if (doorEnter.GetComponent<AudioSource>())
-                {
-                    doorEnter.GetComponent<AudioSource>().Play();
-                }
-                
+                FindAnyObjectByType<AudioManager>().InteractionSound("DoorOpen", true);
                 FindObjectOfType<Door>().OpenDoor(doorEnter);
                 StartCoroutine(OpenDoor());
             }
@@ -343,10 +426,7 @@ public class Person : MonoBehaviour
 
     IEnumerator OpenDoor()
     {
-        yield return new WaitForSeconds(0.30f);
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        yield return new WaitForSeconds(0.30f);
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+        yield return new WaitForSeconds(1);
         FindObjectOfType<FrameSwitch>().OpenDoor();
 
         if (FindObjectOfType<Door>())
@@ -358,6 +438,7 @@ public class Person : MonoBehaviour
     IEnumerator destroyTask(int task)
     {
         yield return new WaitForSeconds(1);
+        FindAnyObjectByType<AudioManager>().InteractionSound("MopAction", false);
         gameObjects[task].transform.position = new Vector2(0, 0);
         stopRunning = false;
         State = States.idle;
@@ -388,6 +469,7 @@ public class Person : MonoBehaviour
             PlayerPrefs.Save();
         }
 
+        FindAnyObjectByType<AudioManager>().InteractionSound("ElevatorArrive", true);
         StateElevator = StatesElevator.close;
         StartCoroutine(closeElevator());
     }

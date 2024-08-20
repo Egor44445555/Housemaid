@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5997307258237739953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 708054792178193577}
+  - component: {fileID: 562396289872781137}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: AudioManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &708054792178193577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5997307258237739953}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -63.56185, y: -76.484406, z: -87.100006}
+  m_LocalScale: {x: 2, y: 1.3303543, z: 3.3618}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &562396289872781137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5997307258237739953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d8bc77115e2f94fb909213927f1468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: 6faec356a5a9fbb40929a662e5bcc081, type: 3}
+    name: RunCarpet
+    volume: 0.326
+    pitch: 0.53
+    loop: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: b5408988871d1464693cb59341ee8fea, type: 3}
+    name: ElevatorArrive
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 1093acde6bab72a4ea6abd27d254f0ae, type: 3}
+    name: BottlePickup
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6db3b458b4726aa4b9bbd3b2b1ef6f71, type: 3}
+    name: PaperCrunchy
+    volume: 0.733
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: a6deadfe465c8d84db083b1f1947a4ef, type: 3}
+    name: BagAction
+    volume: 0.61
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: fac6d6e2f6b5745439bf53061e82c5e3, type: 3}
+    name: MopAction
+    volume: 0.519
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: f181eb7bd12e9f6458a8fc491e0df216, type: 3}
+    name: DoorOpen
+    volume: 0.69
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: db9f16c004bc28543a76db0271b13957, type: 3}
+    name: ButtonTap
+    volume: 0.481
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 763f662d0b5c6734d80cb99689548877, type: 3}
+    name: Birds
+    volume: 0.235
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: c3a70b7f09e51aa4a8080256212c5683, type: 3}
+    name: DropItem
+    volume: 0.428
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 62bbc860ba59aca4cb2a8833418215df, type: 3}
+    name: PickupItem
+    volume: 0.722
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 603913d6766716647b2e80ee75e7cea2, type: 3}
+    name: ClosetOpen
+    volume: 0.786
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 541314f9eeeceb44b830fcf315273bdd, type: 3}
+    name: ClosetClose
+    volume: 0.444
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: db37290503a0b50498f2d473d2cefb79, type: 3}
+    name: Snort
+    volume: 0.69
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

@@ -96,6 +96,7 @@ public class Slot : MonoBehaviour
 
             if (destroySlot)
             {
+                FindAnyObjectByType<AudioManager>().InteractionSound("DropItem", true);
                 GameObject.Destroy(child.gameObject);
 
                 for (int i = 0; i < inventory.stuff.Length; i++)
