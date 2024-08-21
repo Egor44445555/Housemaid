@@ -12,6 +12,9 @@ public class Slot : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetString("task" + LayerMask.NameToLayer("Towels"), "0");
+        PlayerPrefs.SetString("task" + LayerMask.NameToLayer("ToiletPaper"), "0");
+        PlayerPrefs.Save();
         inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
@@ -30,6 +33,7 @@ public class Slot : MonoBehaviour
 
         foreach (Transform child in transform)
         {
+            bool closetMenuIsOpen = false;
             bool destroySlot = false;
             string nameStuff = child.gameObject.name.Replace("(Clone)", "");
 
@@ -40,9 +44,13 @@ public class Slot : MonoBehaviour
 
             if (FindObjectOfType<Person>().popupIsOpen == "")
             {
+                // Drop item on scene
+
                 child.GetComponent<Spawn>().SpawnDroppedItem();
             } else if (FindObjectOfType<Person>().popupIsOpen == "CartMenu")
-            {                
+            {
+                // Drop item in cart menu
+
                 char[] letters = nameStuff.ToCharArray();
                 letters[0] = char.ToUpper(letters[0]);
                 string newString = new string(letters);
@@ -51,7 +59,11 @@ public class Slot : MonoBehaviour
             }
             else
             {
+                // Drop item in closet
+
                 string nameSlot = child.name.Replace("(Clone)", "");
+
+                closetMenuIsOpen = true;
 
                 if (nameSlot == "toiletPaper")
                 {
@@ -105,6 +117,18 @@ public class Slot : MonoBehaviour
                     {
                         inventory.stuff[i] = null;
                     }
+                }
+
+                if (closetMenuIsOpen && nameStuff.Contains("toiletPaper"))
+                {
+                    PlayerPrefs.SetString("task" + LayerMask.NameToLayer("ToiletPaper"), (int.Parse(PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper"))) + 1).ToString());
+                    PlayerPrefs.Save();
+                }
+
+                if (closetMenuIsOpen && nameStuff.Contains("towels"))
+                {
+                    PlayerPrefs.SetString("task" + LayerMask.NameToLayer("Towels"), (int.Parse(PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels"))) + 1).ToString());
+                    PlayerPrefs.Save();
                 }
             }
 

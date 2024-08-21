@@ -25,16 +25,19 @@ public class Door : MonoBehaviour
 
         if (tasksComplete)
         {
-            doorEnter.GetComponent<Animator>().SetInteger("state", 1);
+            // Door enable open
+            doorEnter.GetComponent<Animator>().SetInteger("state", 3);
         }
         else
         {
+            // Door disable idle
             doorEnter.GetComponent<Animator>().SetInteger("state", 2);
         }
     }
 
     public void CheckDoorAccess()
     {
+        string nameRoom = GameObject.FindGameObjectWithTag("Room").name.ToLower();
         tasksComplete = true;
         countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
         countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
@@ -53,10 +56,20 @@ public class Door : MonoBehaviour
 
                 if (tasksComplete)
                 {
-                    door.GetComponent<Animator>().SetInteger("state", 0);
+                    if (nameRoom.Contains("room"))
+                    {
+                        // Door idle
+                        this.gameObject.GetComponent<Animator>().SetInteger("state", 0);
+                    }
+                    else
+                    {
+                        // Door enable idle
+                        this.gameObject.GetComponent<Animator>().SetInteger("state", 4);
+                    }
                 }
                 else
                 {
+                    // Door disable idle
                     door.GetComponent<Animator>().SetInteger("state", 2);
                 }
             }
@@ -66,6 +79,7 @@ public class Door : MonoBehaviour
     void Start()
     {
         var taskInfo = JsonHelper.GetJsonValue(this.gameObject.GetComponent<FrameSwitch>().activeFrame.name);
+        string nameRoom = GameObject.FindGameObjectWithTag("Room").name.ToLower();
         countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
         countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
         countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
@@ -78,9 +92,18 @@ public class Door : MonoBehaviour
 
         if (tasksComplete)
         {
-            this.gameObject.GetComponent<Animator>().SetInteger("state", 0);
+            if (nameRoom.Contains("room"))
+            {
+                // Door idle
+                this.gameObject.GetComponent<Animator>().SetInteger("state", 0);
+            } else
+            {
+                // Door enable idle
+                this.gameObject.GetComponent<Animator>().SetInteger("state", 4);
+            }
         } else
         {
+            // Door disable idle
             this.gameObject.GetComponent<Animator>().SetInteger("state", 2);
         }
     }

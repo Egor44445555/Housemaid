@@ -18,18 +18,12 @@ public class Person : MonoBehaviour
     private SpriteRenderer sprite;
     private GameObject[] gameObjects;
 
-    [HideInInspector]
-    public string popupIsOpen = "";
-    [HideInInspector]
-    public GameObject popupObject;
-    [HideInInspector]
-    public bool stopRunning = false;
-    [HideInInspector]
-    public GameObject newFrame;
-    [HideInInspector]
-    public GameObject doorEnter;
-    [HideInInspector]
-    public Vector3 doorEnterPoint;
+    [HideInInspector] public string popupIsOpen = "";
+    [HideInInspector] public GameObject popupObject;
+    [HideInInspector] public bool stopRunning = false;
+    [HideInInspector] public GameObject newFrame;
+    [HideInInspector] public GameObject doorEnter;
+    [HideInInspector] public Vector3 doorEnterPoint;
 
     private bool enterPopupObject = false;
     private bool doorActive = false;
@@ -46,6 +40,8 @@ public class Person : MonoBehaviour
     string countTrash;
     string countPuddle;
     string countTask;
+    string countToiletPaper;
+    string countTowels;
     bool tasksComplete = true;
 
     private States State
@@ -186,7 +182,6 @@ public class Person : MonoBehaviour
 
         MovePerson();
     }
-
 
     public void OnLeftButtonDown()
     {
@@ -362,7 +357,6 @@ public class Person : MonoBehaviour
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
                     {
                         // Using a mop
-
                         FindAnyObjectByType<AudioManager>().InteractionSound("MopAction", true);
 
                         stopRunning = true;
@@ -400,12 +394,13 @@ public class Person : MonoBehaviour
         var taskInfo = JsonHelper.GetJsonValue(roomName);
         countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
         countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        countToiletPaper = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper"));
+        countTowels = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels"));
         countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
-
 
         if (roomName != null && taskInfo != null)
         {
-            tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle ? false : true;
+            tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle || int.Parse(countToiletPaper) < taskInfo.toiletPaper || int.Parse(countTowels) < taskInfo.towels ? false : true;
         }
 
         if (doorActive && tasksComplete)
@@ -421,6 +416,9 @@ public class Person : MonoBehaviour
                 FindObjectOfType<FrameSwitch>().OpenDoor();
                 FindObjectOfType<Door>().CheckDoorAccess();
             }
+        } else if (doorActive && !tasksComplete)
+        {
+            FindAnyObjectByType<AudioManager>().InteractionSound("DoorLock", true);
         }
     }
 
@@ -512,12 +510,4 @@ public enum StatesElevator
     idle,
     open,
     close
-}
-
-[System.Serializable]
-public class RoomInfo
-{
-    public int collectTrash;
-    public int removePuddle;
-    public string mainTask;
 }

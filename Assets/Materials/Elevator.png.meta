@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ad41b7468851a524092f56e8054d5063
+guid: 3957ef675e3b7724fb2982fc27d72c68
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -81,19 +81,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -149,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Environment_1
+      name: Elevator_0
       rect:
         serializedVersion: 2
-        x: 443
-        y: 282
-        width: 338
-        height: 490
+        x: 0
+        y: 1726
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 470aca1f25d64bc478a02aac097068fa
-      internalID: 1845323637
+      spriteID: 11387f6cc748e4149a055af14f4d0ecf
+      internalID: -1629572032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_2
+      name: Elevator_1
       rect:
         serializedVersion: 2
-        x: 863
-        y: 282
-        width: 338
-        height: 490
+        x: 828
+        y: 1726
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bfb972fa85134304492fa53807833c35
-      internalID: 511203987
+      spriteID: 30ed1369468a3e144a8b994f6667bdf2
+      internalID: 345409537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_10
+      name: Elevator_2
       rect:
         serializedVersion: 2
-        x: 1498
-        y: 394
-        width: 225
-        height: 159
+        x: 1656
+        y: 1725
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3eb791604839b3408e328c0b68df1ee
-      internalID: 439885264
+      spriteID: dcdd6ca9c1a9e9049a4dc9c80195a980
+      internalID: 1500485224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_0
+      name: Elevator_3
       rect:
         serializedVersion: 2
-        x: 23
-        y: 282
-        width: 338
-        height: 490
+        x: 2484
+        y: 1725
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a09afa110e9df042b54a9d0a2048e60
-      internalID: 884148121
+      spriteID: 265231d8616047d49aa05a6e0358b2f2
+      internalID: 1874267617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_3
+      name: Elevator_4
       rect:
         serializedVersion: 2
-        x: 1236
-        y: 216
-        width: 232
-        height: 556
+        x: 0
+        y: 862
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d853d85c9a291414ebb4290201e2a125
-      internalID: 101380567
+      spriteID: 3666d60869eecca4ab74aa802ca14018
+      internalID: -1374079751
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_5
+      name: Elevator_5
       rect:
         serializedVersion: 2
-        x: 1498
-        y: 611
-        width: 172
-        height: 161
+        x: 828
+        y: 862
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfa876b82718c094caa1068996b34b0e
-      internalID: 216337995
+      spriteID: f6d1c1a22323de84a8dffbe89393c2c3
+      internalID: -747135918
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_12
+      name: Elevator_6
       rect:
         serializedVersion: 2
-        x: 31
-        y: 27
-        width: 599
-        height: 169
+        x: 1657
+        y: 862
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -289,20 +276,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f512c92c0fb83ad4cbecef8ab3ef92e8
-      internalID: -733317051
+      spriteID: 18955bb4ff562d844bec81320b0e1879
+      internalID: 1814455894
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_13
+      name: Elevator_7
       rect:
         serializedVersion: 2
-        x: 709
-        y: 27
-        width: 599
-        height: 169
+        x: 2484
+        y: 862
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,20 +297,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf288d774ca10194982fba059379bdb8
-      internalID: 896238673
+      spriteID: acf28260200b0e749a59d9af9e33d9c4
+      internalID: 354572476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_14
+      name: Elevator_8
       rect:
         serializedVersion: 2
-        x: 1387
-        y: 24
-        width: 599
-        height: 172
+        x: 0
+        y: 0
+        width: 788
+        height: 823
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -331,8 +318,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e8d40eabf11e134fb302b92bf22bdd6
-      internalID: 1289406031
+      spriteID: 9b9a601d8c1566b4099b0838ad720314
+      internalID: -1333559329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Elevator_9
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 0
+        width: 788
+        height: 823
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9003031fbef25048868d49ead1d5834
+      internalID: 384414569
       vertices: []
       indices: 
       edges: []
@@ -341,28 +349,23 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Environment_0: 884148121
-      Environment_1: 1845323637
-      Environment_10: 439885264
-      Environment_11: -1606480165
-      Environment_12: -733317051
-      Environment_13: 896238673
-      Environment_14: 1289406031
-      Environment_2: 511203987
-      Environment_3: 101380567
-      Environment_4: -1954428198
-      Environment_5: 216337995
-      Environment_6: -922340240
-      Environment_7: -2100534963
-      Environment_8: -1650746873
-      Environment_9: -1101137960
+      Elevator_0: -1546366633
+      Elevator_1: -1629572032
+      Elevator_2: 345409537
+      Elevator_3: 1500485224
+      Elevator_4: 1874267617
+      Elevator_5: -1374079751
+      Elevator_6: -747135918
+      Elevator_7: 1814455894
+      Elevator_8: 354572476
+      Elevator_9: -1333559329
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

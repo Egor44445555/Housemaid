@@ -10,10 +10,13 @@ public class CheckList : MonoBehaviour
 
     public void OpenCheckList()
     {
-        FindAnyObjectByType<AudioManager>().InteractionSound("ButtonTap", true);
-        checkList.SetActive(true);
-        FindObjectOfType<Person>().stopRunning = true;
-        FindObjectOfType<Count>().ÑountChange();
+        if (!FindObjectOfType<Person>().stopRunning)
+        {
+            FindAnyObjectByType<AudioManager>().InteractionSound("ButtonTap", true);
+            checkList.SetActive(true);
+            FindObjectOfType<Person>().stopRunning = true;
+            FindObjectOfType<Count>().ÑountChange();
+        }        
     }
 
     public void CloseCheckList()

@@ -11,13 +11,14 @@
     },
     "Room3": {
       "collectTrash": 10,
-      "removePuddle": 3,
+      "removePuddle": 2,
       "toiletPaper": 10,
       "towels": 6
     },
     "taskNextFloor": {
       "mainTask": "flashDrive",
-      "taskName": "Найти флеш карту памяти",
+      "collectTrash": 10,
+      "removePuddle": 3,
       "toiletPaper": 20,
       "towels": 9
     }
@@ -31,9 +32,6 @@
     },
     "Room3": {
       "tasks": 20
-    },
-    "Room4": {
-      "tasks": 40
     }
   }
 }

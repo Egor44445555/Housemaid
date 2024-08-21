@@ -41,7 +41,6 @@ public class ChangeLayerObject : MonoBehaviour
 
     void Start()
     {
-        gameObjects = GameObject.FindGameObjectsWithTag("PopupOpen");
         ChangeOrderLayerObject();
     }
 }
