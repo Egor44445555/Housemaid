@@ -405,6 +405,8 @@ public class Person : MonoBehaviour
 
         if (doorActive && tasksComplete)
         {
+            stopRunning = true;
+
             if (FindObjectOfType<Door>())
             {
                 FindAnyObjectByType<AudioManager>().InteractionSound("DoorOpen", true);
@@ -430,7 +432,9 @@ public class Person : MonoBehaviour
         if (FindObjectOfType<Door>())
         {
             FindObjectOfType<Door>().CheckDoorAccess();
-        }        
+        }
+
+        stopRunning = false;
     }
 
     IEnumerator destroyTask(int task)

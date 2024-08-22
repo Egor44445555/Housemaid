@@ -28,6 +28,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InteractionSound("MainTheme", true);
+    }
+
     public void InteractionSound(string name, bool play)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);

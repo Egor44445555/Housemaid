@@ -45,15 +45,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
+  - clip: {fileID: 8300000, guid: 8b43fe25bebf6e34591a9c228384f949, type: 3}
+    name: MainTheme
+    volume: 0.759
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 6faec356a5a9fbb40929a662e5bcc081, type: 3}
     name: RunCarpet
-    volume: 0.326
+    volume: 0.385
     pitch: 0.53
     loop: 1
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: b5408988871d1464693cb59341ee8fea, type: 3}
     name: ElevatorArrive
-    volume: 1
+    volume: 0.92
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -65,19 +71,19 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 6db3b458b4726aa4b9bbd3b2b1ef6f71, type: 3}
     name: PaperCrunchy
-    volume: 0.733
+    volume: 0.797
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: a6deadfe465c8d84db083b1f1947a4ef, type: 3}
     name: BagAction
-    volume: 0.61
+    volume: 0.663
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: fac6d6e2f6b5745439bf53061e82c5e3, type: 3}
     name: MopAction
-    volume: 0.519
+    volume: 0.556
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -89,49 +95,49 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: db9f16c004bc28543a76db0271b13957, type: 3}
     name: ButtonTap
-    volume: 0.481
+    volume: 0.567
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 763f662d0b5c6734d80cb99689548877, type: 3}
     name: Birds
-    volume: 0.235
+    volume: 0.305
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: c3a70b7f09e51aa4a8080256212c5683, type: 3}
     name: DropItem
-    volume: 0.428
+    volume: 0.572
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 62bbc860ba59aca4cb2a8833418215df, type: 3}
     name: PickupItem
-    volume: 0.722
+    volume: 0.781
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 603913d6766716647b2e80ee75e7cea2, type: 3}
     name: ClosetOpen
-    volume: 0.786
+    volume: 0.866
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 541314f9eeeceb44b830fcf315273bdd, type: 3}
     name: ClosetClose
-    volume: 0.444
+    volume: 0.567
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: db37290503a0b50498f2d473d2cefb79, type: 3}
     name: Snort
-    volume: 0.69
+    volume: 0.866
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: cc4fff762332a734f9a587f939cd1943, type: 3}
     name: DoorLock
-    volume: 0.198
+    volume: 0.251
     pitch: 1
     loop: 0
     source: {fileID: 0}

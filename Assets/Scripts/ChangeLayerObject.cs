@@ -14,11 +14,11 @@ public class ChangeLayerObject : MonoBehaviour
         foreach (GameObject obj in gameObjects)
         {
             float playerPositionY = player.transform.position.y;
-            float cartPositionY = obj.transform.position.y;
+            float objectPositionY = obj.transform.position.y;
             int playerOrderLayer = player.GetComponent<SpriteRenderer>().sortingOrder;
             Transform[] objChild = obj.transform.GetComponentsInChildren<Transform>();
 
-            if (playerPositionY > cartPositionY)
+            if (playerPositionY > objectPositionY)
             {
                 for (var j = 0; j < objChild.Length; j++)
                 {

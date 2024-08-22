@@ -37,7 +37,6 @@ public class Door : MonoBehaviour
 
     public void CheckDoorAccess()
     {
-        string nameRoom = GameObject.FindGameObjectWithTag("Room").name.ToLower();
         tasksComplete = true;
         countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
         countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
@@ -56,15 +55,15 @@ public class Door : MonoBehaviour
 
                 if (tasksComplete)
                 {
-                    if (nameRoom.Contains("room"))
+                    if (!door.GetComponent<FrameSwitch>().activeFrame.name.Contains("Room"))
                     {
                         // Door idle
-                        this.gameObject.GetComponent<Animator>().SetInteger("state", 0);
+                        door.GetComponent<Animator>().SetInteger("state", 0);
                     }
                     else
                     {
                         // Door enable idle
-                        this.gameObject.GetComponent<Animator>().SetInteger("state", 4);
+                        door.GetComponent<Animator>().SetInteger("state", 4);
                     }
                 }
                 else
@@ -85,26 +84,6 @@ public class Door : MonoBehaviour
         countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
         doors = GameObject.FindGameObjectsWithTag("Door");
 
-        if (taskInfo != null)
-        {
-            tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle ? false : true;
-        }
-
-        if (tasksComplete)
-        {
-            if (nameRoom.Contains("room"))
-            {
-                // Door idle
-                this.gameObject.GetComponent<Animator>().SetInteger("state", 0);
-            } else
-            {
-                // Door enable idle
-                this.gameObject.GetComponent<Animator>().SetInteger("state", 4);
-            }
-        } else
-        {
-            // Door disable idle
-            this.gameObject.GetComponent<Animator>().SetInteger("state", 2);
-        }
+        CheckDoorAccess();
     }
 }

@@ -6,8 +6,8 @@
     "Room2": {
       "collectTrash": 1,
       "removePuddle": 0,
-      "toiletPaper": 5,
-      "towels": 3
+      "toiletPaper": 0,
+      "towels": 0
     },
     "Room3": {
       "collectTrash": 10,
