@@ -96,6 +96,20 @@ public class Person : MonoBehaviour
         MovePerson();
     }
 
+    public void OnLeftButtonDown()
+    {
+        if (!stopRunning)
+        {
+            lookUp = false;
+            lookDown = false;
+            rb.velocity = -transform.right * normalSpeed;
+            sprite.flipX = speed <= 0f;
+            State = States.run;
+        }
+
+        MovePerson();
+    }
+
     public void OnRightButtonDown()
     {
         if (speed >= 0f)
@@ -128,7 +142,7 @@ public class Person : MonoBehaviour
         {
             lookUp = false;
             lookDown = false;
-            rb.velocity = new Vector3(transform.right.x * speed, transform.up.y * speed / 2, 0);
+            rb.velocity = new Vector3(transform.right.x + 0.6f * speed, transform.up.y * speed / 2 + 0.6f, 0);
             sprite.flipX = speed <= 0f;
             State = States.run;
         }
@@ -147,7 +161,7 @@ public class Person : MonoBehaviour
         {
             lookUp = false;
             lookDown = false;
-            rb.velocity = new Vector3(transform.right.x * speed, -transform.up.y * speed / 2, 0);
+            rb.velocity = new Vector3(transform.right.x + 0.6f * speed, -transform.up.y * speed / 2 + 0.6f, 0);
             sprite.flipX = speed <= 0f;
             State = States.run;
         }
@@ -161,7 +175,7 @@ public class Person : MonoBehaviour
         {
             lookUp = false;
             lookDown = false;
-            rb.velocity = new Vector3(-transform.right.x * normalSpeed, transform.up.y * normalSpeed / 2, 0);
+            rb.velocity = new Vector3(-transform.right.x - 0.6f * normalSpeed, transform.up.y * normalSpeed / 2 - 0.6f, 0);
             sprite.flipX = speed <= 0f;
             State = States.run;
         }
@@ -175,21 +189,7 @@ public class Person : MonoBehaviour
         {
             lookUp = false;
             lookDown = false;
-            rb.velocity = new Vector3(-transform.right.x * normalSpeed, -transform.up.y * normalSpeed / 2, 0);
-            sprite.flipX = speed <= 0f;
-            State = States.run;
-        }
-
-        MovePerson();
-    }
-
-    public void OnLeftButtonDown()
-    {
-        if (!stopRunning)
-        {
-            lookUp = false;
-            lookDown = false;
-            rb.velocity = -transform.right * normalSpeed;
+            rb.velocity = new Vector3(-transform.right.x - 0.6f * normalSpeed, -transform.up.y * normalSpeed / 2 - 0.6f, 0);
             sprite.flipX = speed <= 0f;
             State = States.run;
         }

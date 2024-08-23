@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class Safe : MonoBehaviour
 {
     [SerializeField] public string buttonValue;
-    string codeText = "";
+    [SerializeField] public GameObject openedSafe;
+    [SerializeField] public GameObject safePanel;
 
     public void ButtonClick()
     {
@@ -34,7 +35,8 @@ public class Safe : MonoBehaviour
     {
         if (PlayerPrefs.GetString("SafeCode") == "0657")
         {
-            print("Open safe");
+            safePanel.SetActive(false);
+            openedSafe.SetActive(true);
         }
     }
 
