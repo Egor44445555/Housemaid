@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3957ef675e3b7724fb2982fc27d72c68
+guid: daf79bf1392f4da4096a529dc4b5625a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Elevator_1
+      name: Room_0
       rect:
         serializedVersion: 2
-        x: 773
-        y: 0
-        width: 684
-        height: 1201
+        x: 0
+        y: 1981
+        width: 827
+        height: 1475
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11387f6cc748e4149a055af14f4d0ecf
-      internalID: -1629572032
+      spriteID: 4272cbc79f09905488cc27f2e0be1199
+      internalID: -365457213
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_3
+      name: Room_1
       rect:
         serializedVersion: 2
-        x: 1547
-        y: 0
-        width: 684
-        height: 1201
+        x: 898
+        y: 3010
+        width: 368
+        height: 446
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcdd6ca9c1a9e9049a4dc9c80195a980
-      internalID: 1500485224
+      spriteID: 08c0db5f770f1704cab7eaeb64142895
+      internalID: -395366979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_4
+      name: Room_2
       rect:
         serializedVersion: 2
-        x: 2320
-        y: 0
-        width: 684
-        height: 1201
+        x: 1307
+        y: 3011
+        width: 435
+        height: 446
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 265231d8616047d49aa05a6e0358b2f2
-      internalID: 1874267617
+      spriteID: c43073e1d7a6b744f9ad4842c51d7cc3
+      internalID: -1811429418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_5
+      name: Room_3
       rect:
         serializedVersion: 2
-        x: 3091
-        y: 0
-        width: 684
-        height: 1201
+        x: 1780
+        y: 3093
+        width: 148
+        height: 396
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3666d60869eecca4ab74aa802ca14018
-      internalID: -1374079751
+      spriteID: 63b86c0df4f668b4295c39a76e4d4bc6
+      internalID: 1631007493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_7
+      name: Room_4
       rect:
         serializedVersion: 2
-        x: 3864
-        y: 0
-        width: 684
-        height: 1201
+        x: 1999
+        y: 3103
+        width: 162
+        height: 386
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18955bb4ff562d844bec81320b0e1879
-      internalID: 1814455894
+      spriteID: 6dd21103675bf4446abd9aaa5506ecb7
+      internalID: 615172355
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_8
+      name: Room_5
       rect:
         serializedVersion: 2
-        x: 4637
-        y: 0
-        width: 684
-        height: 1201
+        x: 898
+        y: 2108
+        width: 858
+        height: 807
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -255,41 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acf28260200b0e749a59d9af9e33d9c4
-      internalID: 354572476
+      spriteID: d58f4919c045fe849a00e2e218040195
+      internalID: -1241403079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Elevator_9
-      rect:
-        serializedVersion: 2
-        x: 5410
-        y: 0
-        width: 684
-        height: 1201
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b9a601d8c1566b4099b0838ad720314
-      internalID: -1333559329
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elevator_0
+      name: Room_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 684
-        height: 1201
+        width: 1014
+        height: 1924
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9a653d998f890443a2576f97423e5fd
-      internalID: -1546366633
+      spriteID: a2b67c8b75e98f04a8d98f6b651f4f97
+      internalID: -825863575
       vertices: []
       indices: 
       edges: []
@@ -307,46 +286,20 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Elevator_0: -1546366633
-      Elevator_1: -1629572032
-      Elevator_10: 1495007052
-      Elevator_11: 1615729184
-      Elevator_12: 610682740
-      Elevator_13: 858001387
-      Elevator_14: 128431772
-      Elevator_15: -713387681
-      Elevator_16: -2080812706
-      Elevator_17: 1064579437
-      Elevator_18: -1479501384
-      Elevator_19: 154558081
-      Elevator_2: 345409537
-      Elevator_20: -1595279873
-      Elevator_21: -1833832909
-      Elevator_22: -432932538
-      Elevator_23: 398117946
-      Elevator_24: -2072154437
-      Elevator_25: -232336272
-      Elevator_26: 949797448
-      Elevator_27: -1591419408
-      Elevator_28: -974730262
-      Elevator_29: 224367245
-      Elevator_3: 1500485224
-      Elevator_30: -275265961
-      Elevator_31: 1196319074
-      Elevator_32: 522694861
-      Elevator_4: 1874267617
-      Elevator_5: -1374079751
-      Elevator_6: -747135918
-      Elevator_7: 1814455894
-      Elevator_8: 354572476
-      Elevator_9: -1333559329
+      Room_0: -365457213
+      Room_1: -395366979
+      Room_2: -1811429418
+      Room_3: 1631007493
+      Room_4: 615172355
+      Room_5: -1241403079
+      Room_6: -825863575
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
