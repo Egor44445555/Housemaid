@@ -10,12 +10,12 @@ public class ChangeLayerObject : MonoBehaviour
     public void ChangeOrderLayerObject()
     {
         player = FindObjectOfType<Person>();
+        float playerPositionY = player.transform.position.y;
+        int playerOrderLayer = player.GetComponent<SpriteRenderer>().sortingOrder;
 
         foreach (GameObject obj in gameObjects)
         {
-            float playerPositionY = player.transform.position.y;
-            float objectPositionY = obj.transform.position.y;
-            int playerOrderLayer = player.GetComponent<SpriteRenderer>().sortingOrder;
+            float objectPositionY = obj.transform.position.y + 1f;
             Transform[] objChild = obj.transform.GetComponentsInChildren<Transform>();
 
             if (playerPositionY > objectPositionY)

@@ -81,6 +81,7 @@ public class Person : MonoBehaviour
             rb.velocity = transform.up * normalSpeed;
             State = States.runUp;
         }
+
         MovePerson();
     }
 
@@ -441,7 +442,7 @@ public class Person : MonoBehaviour
                 }
             }
 
-            if (mainTaskObjectExist)
+            if (roomName == "NextFloor" && mainTaskObjectExist)
             {
                 SceneManager.LoadScene(0);
             }

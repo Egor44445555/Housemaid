@@ -13,24 +13,28 @@ public class Inventory : MonoBehaviour
     {
         bool removeStuff = true;
 
-        Transform[] objChild = GameObject.Find("Cart").transform.GetComponentsInChildren<Transform>();
-        
-        for (var j = 0; j < objChild.Length; j++)
+        if (GameObject.Find("Cart"))
         {
-            foreach (string item in endlessStuff)
-            {
-                if (item == name)
-                {
-                    removeStuff = false;
-                }
-            }
+            Transform[] objChild = GameObject.Find("Cart").transform.GetComponentsInChildren<Transform>();
 
-            if (!hide && objChild[j].gameObject.name.Contains(name))
+            for (var j = 0; j < objChild.Length; j++)
             {
-                objChild[j].gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
-            } else if (hide && objChild[j].gameObject.name.Contains(name) && removeStuff)
-            {
-                objChild[j].gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+                foreach (string item in endlessStuff)
+                {
+                    if (item == name)
+                    {
+                        removeStuff = false;
+                    }
+                }
+
+                if (!hide && objChild[j].gameObject.name.Contains(name))
+                {
+                    objChild[j].gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
+                }
+                else if (hide && objChild[j].gameObject.name.Contains(name) && removeStuff)
+                {
+                    objChild[j].gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+                }
             }
         }
     }
