@@ -24,6 +24,7 @@ public class Person : MonoBehaviour
     [HideInInspector] public GameObject newFrame;
     [HideInInspector] public GameObject doorEnter;
     [HideInInspector] public Vector3 doorEnterPoint;
+    [HideInInspector] public bool safeFound = false;
 
     private bool enterPopupObject = false;
     private bool doorActive = false;
@@ -374,53 +375,61 @@ public class Person : MonoBehaviour
                     break;
                 }
             }
-        }
 
-        if (enterPopupObject)
-        {
-            if (popupObject.GetComponent<Popup>().popup.name.Contains("Closet"))
+            if (enterPopupObject)
             {
-                FindAnyObjectByType<AudioManager>().InteractionSound("ClosetOpen", true);
-            } else
-            {
-                FindAnyObjectByType<AudioManager>().InteractionSound("ButtonTap", true);
+                if (popupObject.GetComponent<Popup>().popup.name.Contains("Closet"))
+                {
+                    FindAnyObjectByType<AudioManager>().InteractionSound("ClosetOpen", true);
+                }
+                else
+                {
+                    FindAnyObjectByType<AudioManager>().InteractionSound("ButtonTap", true);
+                }
+
+                if (popupObject.GetComponent<Popup>().popup.name == "Safe")
+                {
+                    safeFound = true;
+                    popupObject.GetComponent<Popup>().noteButton.SetActive(true);
+                }
+
+                popupObject.GetComponent<Popup>().popup.SetActive(true);
+                stopRunning = true;
+                popupIsOpen = popupObject.GetComponent<Popup>().popup.name;
             }
-            
-            popupObject.GetComponent<Popup>().popup.SetActive(true);
-            stopRunning = true;
-            popupIsOpen = popupObject.GetComponent<Popup>().popup.name;
-        }
 
-        var taskInfo = JsonHelper.GetJsonValue(roomName);
-        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
-        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
-        countToiletPaper = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper"));
-        countTowels = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels"));
-        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
+            var taskInfo = JsonHelper.GetJsonValue(roomName);
+            countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+            countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+            countToiletPaper = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("ToiletPaper"));
+            countTowels = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels")) == "" ? "0" : PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Towels"));
+            countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
 
-        if (roomName != null && taskInfo != null)
-        {
-            tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle || int.Parse(countToiletPaper) < taskInfo.toiletPaper || int.Parse(countTowels) < taskInfo.towels ? false : true;
-        }
-
-        if (doorActive && tasksComplete)
-        {
-            stopRunning = true;
-
-            if (FindObjectOfType<Door>())
+            if (roomName != null && taskInfo != null)
             {
-                FindAnyObjectByType<AudioManager>().InteractionSound("DoorOpen", true);
-                FindObjectOfType<Door>().OpenDoor(doorEnter);
-                StartCoroutine(OpenDoor());
+                tasksComplete = int.Parse(countTrash) < taskInfo.collectTrash || int.Parse(countPuddle) < taskInfo.removePuddle || int.Parse(countToiletPaper) < taskInfo.toiletPaper || int.Parse(countTowels) < taskInfo.towels ? false : true;
             }
-            else
+
+            if (doorActive && tasksComplete)
             {
-                FindObjectOfType<FrameSwitch>().OpenDoor();
-                FindObjectOfType<Door>().CheckDoorAccess();
+                stopRunning = true;
+
+                if (FindObjectOfType<Door>())
+                {
+                    FindAnyObjectByType<AudioManager>().InteractionSound("DoorOpen", true);
+                    FindObjectOfType<Door>().OpenDoor(doorEnter);
+                    StartCoroutine(OpenDoor());
+                }
+                else
+                {
+                    FindObjectOfType<FrameSwitch>().OpenDoor();
+                    FindObjectOfType<Door>().CheckDoorAccess();
+                }
             }
-        } else if (doorActive && !tasksComplete)
-        {
-            FindAnyObjectByType<AudioManager>().InteractionSound("DoorLock", true);
+            else if (doorActive && !tasksComplete)
+            {
+                FindAnyObjectByType<AudioManager>().InteractionSound("DoorLock", true);
+            }
         }
     }
 

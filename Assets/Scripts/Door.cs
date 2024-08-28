@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField] bool corridorDoor;
     GameObject[] doors;
     string countTrash;
     string countPuddle;
@@ -55,7 +56,7 @@ public class Door : MonoBehaviour
 
                 if (tasksComplete)
                 {
-                    if (!door.GetComponent<FrameSwitch>().activeFrame.name.Contains("Room"))
+                    if (!door.GetComponent<Door>().corridorDoor)
                     {
                         // Door idle
                         door.GetComponent<Animator>().SetInteger("state", 0);

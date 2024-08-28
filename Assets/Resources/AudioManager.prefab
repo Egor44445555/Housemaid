@@ -141,3 +141,33 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: e055f8e77968b604691ad0e9852a387e, type: 3}
+    name: SoundSafeCode
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 04aa31b77bded6e4a98a043fa39ffae6, type: 3}
+    name: SafeCodeDenied
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: dcf450cc30758bb4b883f77653a95ce6, type: 3}
+    name: SafeCodeAccessible
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: addf8dd515cde634e898e62a97a3054f, type: 3}
+    name: OpenNote
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 91dfe93ff1e4cac4d9fb473e5b666fea, type: 3}
+    name: WriteOnNotebook
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}

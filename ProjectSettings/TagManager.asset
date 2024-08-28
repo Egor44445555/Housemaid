@@ -32,6 +32,7 @@ TagManager:
   - AudioButtonTap
   - Sound
   - AudioManager
+  - NoteButton
   layers:
   - Default
   - TransparentFX

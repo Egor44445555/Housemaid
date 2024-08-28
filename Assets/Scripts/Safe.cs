@@ -13,6 +13,8 @@ public class Safe : MonoBehaviour
     {
         if (PlayerPrefs.GetString("SafeCode").Length < 4 && buttonValue != "#")
         {
+            FindAnyObjectByType<AudioManager>().InteractionSound("SoundSafeCode", true);
+
             foreach (Safe item in FindObjectsByType<Safe>(FindObjectsSortMode.None))
             {
                 if (item.buttonValue == "DisplayCode")
@@ -35,9 +37,19 @@ public class Safe : MonoBehaviour
     {
         if (PlayerPrefs.GetString("SafeCode") == "0657")
         {
-            safePanel.SetActive(false);
-            openedSafe.SetActive(true);
+            FindAnyObjectByType<AudioManager>().InteractionSound("SafeCodeAccessible", true);
+            StartCoroutine(OpenSafe());
+        } else
+        {
+            FindAnyObjectByType<AudioManager>().InteractionSound("SafeCodeDenied", true);        
         }
+    }
+
+    IEnumerator OpenSafe()
+    {
+        yield return new WaitForSeconds(1);
+        safePanel.SetActive(false);
+        openedSafe.SetActive(true);
     }
 
     void ClearDisplayCode()
