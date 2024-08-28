@@ -4,8 +4,8 @@
       "collectTrash": 0
     },
     "Room2": {
-      "collectTrash": 1,
-      "removePuddle": 0,
+      "collectTrash": 5,
+      "removePuddle": 1,
       "toiletPaper": 0,
       "towels": 0
     },
@@ -16,9 +16,9 @@
       "towels": 6
     },
     "taskNextFloor": {
-      "mainTask": "flashDrive",
+      "mainTask": "FlashCard",
       "collectTrash": 10,
-      "removePuddle": 3,
+      "removePuddle": 5,
       "toiletPaper": 20,
       "towels": 9
     }

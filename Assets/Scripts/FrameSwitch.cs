@@ -21,7 +21,11 @@ public class FrameSwitch : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             player.GetComponent<Person>().newFrame = activeFrame;
-            player.GetComponent<Person>().doorEnterPoint = playerPositionStayEnter.transform.position;
+
+            if (playerPositionStayEnter)
+            {
+                player.GetComponent<Person>().doorEnterPoint = playerPositionStayEnter.transform.position;
+            }            
         }
     }
 

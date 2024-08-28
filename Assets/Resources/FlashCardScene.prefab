@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1909163440688132637}
   - component: {fileID: 1441243699417424084}
   - component: {fileID: 9142447594029187241}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: FlashCardScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}

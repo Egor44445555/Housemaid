@@ -35,6 +35,15 @@ public class Count : MonoBehaviour
     {
         var taskInfo = JsonHelper.GetJsonValue("Room3");
         var mainTaskInfo = JsonHelper.GetJsonValue("taskNextFloor");
+        int mainTask = 0;
+
+        foreach (Spawn child in FindObjectsOfType<Spawn>())
+        {
+            if (child.name.Contains("FlashCard"))
+            {
+                mainTask = 1;
+            }
+        }
 
         foreach (var obj in FindObjectsOfType<Count>())
         {
@@ -60,7 +69,7 @@ public class Count : MonoBehaviour
 
             if (obj.taskName == "NextFloor")
             {
-                obj.GetComponent<Text>().text = countTask + " / 1";
+                obj.GetComponent<Text>().text = mainTask + " / 1";
             }
         }
     }

@@ -430,6 +430,21 @@ public class Person : MonoBehaviour
             {
                 FindAnyObjectByType<AudioManager>().InteractionSound("DoorLock", true);
             }
+
+            bool mainTaskObjectExist = false;
+
+            foreach (Spawn child in FindObjectsOfType<Spawn>())
+            {
+                if (child.name.Contains("FlashCard"))
+                {
+                    mainTaskObjectExist = true;
+                }
+            }
+
+            if (mainTaskObjectExist)
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 
