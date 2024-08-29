@@ -31,6 +31,11 @@ public class Safe : MonoBehaviour
             CheckCode();
             ClearDisplayCode();
         }
+
+        if (buttonValue == "*")
+        {
+            ClearDisplayCode();
+        }
     }
 
     void CheckCode()
