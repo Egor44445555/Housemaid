@@ -320,7 +320,7 @@ TextureImporter:
       name: Person_15
       rect:
         serializedVersion: 2
-        x: 266
+        x: 267
         y: 602
         width: 106
         height: 258
@@ -341,7 +341,7 @@ TextureImporter:
       name: Person_18
       rect:
         serializedVersion: 2
-        x: 533
+        x: 529
         y: 602
         width: 114
         height: 258
@@ -383,7 +383,7 @@ TextureImporter:
       name: Person_21
       rect:
         serializedVersion: 2
-        x: 931
+        x: 932
         y: 602
         width: 106
         height: 258
@@ -446,7 +446,7 @@ TextureImporter:
       name: Person_24
       rect:
         serializedVersion: 2
-        x: 1330
+        x: 1331
         y: 602
         width: 105
         height: 258
@@ -593,7 +593,7 @@ TextureImporter:
       name: Person_14
       rect:
         serializedVersion: 2
-        x: 133
+        x: 134
         y: 602
         width: 105
         height: 258
