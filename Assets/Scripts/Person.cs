@@ -44,6 +44,7 @@ public class Person : MonoBehaviour
     string countToiletPaper;
     string countTowels;
     bool tasksComplete = true;
+    bool onMove = false;
 
     private States State
     {
@@ -201,7 +202,7 @@ public class Person : MonoBehaviour
 
     private void MovePerson() {
         FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", true);
-        FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
+        onMove = true;
     }
 
     public void OnButtonUp()
@@ -220,6 +221,8 @@ public class Person : MonoBehaviour
         {
             State = States.idle;
         }
+
+        onMove = false;
 
         FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", false);
     }
@@ -521,6 +524,11 @@ public class Person : MonoBehaviour
         {
             Transform player = GameObject.FindGameObjectWithTag("Player").transform;
             GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
+        }
+
+        if (onMove)
+        {
+            FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
         }
     }
 
