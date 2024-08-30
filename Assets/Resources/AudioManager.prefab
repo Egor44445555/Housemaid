@@ -131,7 +131,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: db37290503a0b50498f2d473d2cefb79, type: 3}
     name: Snort
-    volume: 0.866
+    volume: 0.93
     pitch: 1
     loop: 0
     source: {fileID: 0}

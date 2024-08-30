@@ -22,6 +22,8 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
+        // Timer
+
         /*float minutes = Mathf.FloorToInt(lifeTime / 60);
         float seconds = Mathf.FloorToInt(lifeTime % 60);
         string zeroMinutes = minutes < 10 ? "0" : "";
@@ -44,7 +46,9 @@ public class Timer : MonoBehaviour
 
     IEnumerator ITimer()
     {
-        while(true)
+        // Stopwatch
+
+        while (true)
         {
             if (sec == 59)
             {

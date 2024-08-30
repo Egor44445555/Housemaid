@@ -246,6 +246,11 @@ public class Person : MonoBehaviour
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
 
+        if (roomName == "NextFloor")
+        {
+            roomName = "";
+        }
+
         if (collider.CompareTag("Sound"))
         {
             StartCoroutine(AudioFade.FadeOut(FindAnyObjectByType<AudioManager>().GetSound("Birds"), 0.5f, Mathf.SmoothStep));
@@ -354,7 +359,7 @@ public class Person : MonoBehaviour
                     else if (gameObjects[i] && LayerMask.NameToLayer("Trash") == gameObjects[i].layer && !bagIsExist)
                     {
                         // No bag in inventory
-                        CloudAnimation("bag");
+                        CloudAnimation("Bag");
                     }
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && mopIsExist)
                     {
@@ -370,7 +375,7 @@ public class Person : MonoBehaviour
                     else if (gameObjects[i] && LayerMask.NameToLayer("Puddle") == gameObjects[i].layer && !mopIsExist)
                     {
                         // No mop in inventory
-                        CloudAnimation("mop");
+                        CloudAnimation("Mop");
                     }
 
                     break;
@@ -445,6 +450,9 @@ public class Person : MonoBehaviour
             if (roomName == "NextFloor" && mainTaskObjectExist)
             {
                 SceneManager.LoadScene(0);
+            } else if (roomName == "NextFloor" && !mainTaskObjectExist)
+            {
+                CloudAnimation("FlashCard");
             }
         }
     }
