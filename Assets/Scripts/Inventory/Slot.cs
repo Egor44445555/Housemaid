@@ -46,7 +46,8 @@ public class Slot : MonoBehaviour
             {
                 // Drop item on scene
 
-                child.GetComponent<Spawn>().SpawnDroppedItem();
+                //child.GetComponent<Spawn>().SpawnDroppedItem();
+                destroySlot = false;
             } else if (FindObjectOfType<Person>().popupIsOpen == "CartMenu")
             {
                 // Drop item in cart menu
