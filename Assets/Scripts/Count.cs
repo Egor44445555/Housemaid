@@ -12,7 +12,7 @@ public class Count : MonoBehaviour
     private string countToiletPaper = "0";
     private string countTowels = "0";
 
-    public void ÑountChange()
+    public void CountChange()
     {        
         countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
         countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));

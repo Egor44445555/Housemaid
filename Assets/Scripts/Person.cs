@@ -73,6 +73,107 @@ public class Person : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        elevator = GameObject.FindGameObjectWithTag("Elevator");
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        speed = 0f;
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        gameObjects = GameObject.FindGameObjectsWithTag("Task");
+        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
+        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
+        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
+
+        foreach (GameObject task in gameObjects)
+        {
+            PlayerPrefs.SetString("task" + task.layer, "0");
+            PlayerPrefs.Save();
+        }
+
+        FindAnyObjectByType<AudioManager>().InteractionSound("ElevatorArrive", true);
+        StateElevator = StatesElevator.close;
+        StartCoroutine(closeElevator());
+    }
+
+    IEnumerator closeElevator()
+    {
+        yield return new WaitForSeconds(2);
+        StateElevator = StatesElevator.idle;
+    }
+
+    void Update()
+    {
+        float moveXInput = Input.GetAxis("Horizontal");
+        float moveYInput = Input.GetAxis("Vertical");
+
+        if (moveXInput > 0 && moveYInput == 0)
+        {
+            OnRightButtonDown();
+        }
+
+        if (moveXInput < 0 && moveYInput == 0)
+        {
+            OnLeftButtonDown();
+        }
+
+        if (moveXInput == 0 && moveYInput > 0)
+        {
+            OnTopButtonDown();
+        }
+
+        if (moveXInput == 0 && moveYInput < 0)
+        {
+            OnDownButtonDown();
+        }
+
+        if (moveXInput > 0 && moveYInput > 0)
+        {
+            OnRightTopButtonDown();
+        }
+
+        if (moveXInput < 0 && moveYInput > 0)
+        {
+            OnLeftTopButtonDown();
+        }
+
+        if (moveXInput > 0 && moveYInput < 0)
+        {
+            OnRightDownButtonDown();
+        }
+
+        if (moveXInput < 0 && moveYInput < 0)
+        {
+            OnLeftDownButtonDown();
+        }
+
+
+        if (moveXInput == 0 && moveYInput == 0)
+        {
+            OnButtonUp();
+        }        
+
+        if (cloudActive == true)
+        {
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+            GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
+        }
+
+        if (onMove)
+        {
+            FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
+        }
+    }
+
+    IEnumerator closeCloud()
+    {
+        yield return new WaitForSeconds(2);
+        cloudActive = false;
+    }
+
     public void OnTopButtonDown()
     {
         if (!stopRunning)
@@ -200,15 +301,10 @@ public class Person : MonoBehaviour
         MovePerson();
     }
 
-    private void MovePerson() {
-        FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", true);
-        onMove = true;
-    }
-
     public void OnButtonUp()
     {        
         speed = 0f;
-        rb.velocity = transform.right * speed;
+        rb.velocity = new Vector2(0f, 0f);
         
         if (lookUp)
         {
@@ -227,6 +323,11 @@ public class Person : MonoBehaviour
         FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", false);
     }
 
+    void MovePerson() {
+        FindAnyObjectByType<AudioManager>().InteractionSound("RunCarpet", true);
+        onMove = true;
+    }
+    
     void OnTriggerEnter2D(Collider2D collider)
     {
         doorEnter = collider.CompareTag("Door") ? collider.gameObject : null;
@@ -483,59 +584,6 @@ public class Person : MonoBehaviour
         FindObjectOfType<Door>().CheckDoorAccess();
         PlayerPrefs.SetString("taskTarget", "");
         PlayerPrefs.Save();
-    }
-
-    void Start()
-    {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-
-        elevator = GameObject.FindGameObjectWithTag("Elevator");
-        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
-        speed = 0f;
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
-        gameObjects = GameObject.FindGameObjectsWithTag("Task");
-        countTrash = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Trash"));
-        countPuddle = PlayerPrefs.GetString("task" + LayerMask.NameToLayer("Puddle"));
-        countTask = LayerMask.NameToLayer("TaskNextFloor").ToString();
-
-        foreach (GameObject task in gameObjects)
-        {
-            PlayerPrefs.SetString("task" + task.layer, "0");
-            PlayerPrefs.Save();
-        }
-
-        FindAnyObjectByType<AudioManager>().InteractionSound("ElevatorArrive", true);
-        StateElevator = StatesElevator.close;
-        StartCoroutine(closeElevator());
-    }
-
-    IEnumerator closeElevator()
-    {
-        yield return new WaitForSeconds(2);
-        StateElevator = StatesElevator.idle;
-    }
-
-    void Update()
-    {
-        if (cloudActive == true)
-        {
-            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-            GameObject.FindGameObjectWithTag("Cloud").gameObject.transform.position = new Vector2(player.position.x + 2, player.position.y + 3);
-        }
-
-        if (onMove)
-        {
-            FindObjectOfType<ChangeLayerObject>().ChangeOrderLayerObject();
-        }
-    }
-
-    IEnumerator closeCloud()
-    {
-        yield return new WaitForSeconds(2);
-        cloudActive = false;
     }
 }
 
